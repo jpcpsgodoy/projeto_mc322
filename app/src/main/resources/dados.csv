@@ -34,26 +34,26 @@ id,nome,tdPasse,tdCorrido,total
 33,Jay Cutler,227,9,236
 34,Ryan Fitzpatrick,223,19,242
 35,Ryan Tannehill,216,27,243
-36,John Brodie,214,12,226
+36,Tim Tebow,17,12,29
 37,Terry Bradshaw,212,32,244
 38,Matt Hasselbeck,212,15,227
 39,Jared Goff,210,12,222
-40,Jim Hart,209,9,218
+40,Teddy Bridgewater,75,11,86
 41,Kerry Collins,208,12,220
 42,Kurt Warner,208,3,211
 43,Dak Prescott,203,29,232
-44,Jim Everett,203,8,211
+44,Will Levis,21,1,22
 45,Alex Smith,199,15,214
-46,Joe Ferguson,196,15,211
+46,Taylor Heinicke,39,3,42
 47,Steve DeBerg,196,10,206
 48,Josh Allen,195,65,260
 49,Cam Newton,194,75,269
-50,Charlie Conerly,173,8,181
+50,Cooper Rush,20,0,20
 51,Joe Namath,173,7,180
 52,Andrew Luck,171,14,185
 53,Baker Mayfield,171,10,181
 54,Chris Chandler,170,13,183
-55,Charley Johnson,170,11,181
+55,Trevor Lawrence,69,14,83
 56,Jon Kitna,169,12,181
 57,Lamar Jackson,166,33,199
 58,Troy Aikman,165,9,174
@@ -78,5 +78,4 @@ id,nome,tdPasse,tdCorrido,total
 77,Jayden Daniels,25,6,31
 78,Brock Purdy,64,8,72
 79,Caleb Williams,20,0,20
-80,Mitchell Trubisky,74,13,87
-81,Robert Griffin III,43,14,57
+80,Robert Griffin III,43,14,57
