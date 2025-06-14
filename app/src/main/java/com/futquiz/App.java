@@ -3,12 +3,34 @@
  */
 package com.futquiz;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+import com.futquiz.auxiliares.*;
+import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
+import com.futquiz.model.*;
+
+public class App {
+    public static void main(String[] args) throws NaoFoiPossivelCarregarArquivoException {
+        List<Quarterback> quarterbacks = leitorDeCSV.carregarDados("/dados.csv");
+
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        while (true) {
+            String comando = scanner.nextLine().trim().toLowerCase();
+
+            if (comando.equals("s")) {
+                int indiceAleatorio = random.nextInt(quarterbacks.size());
+                Quarterback qbSorteado = quarterbacks.get(indiceAleatorio);
+                System.out.println("Quarterback Sorteado:\n" + qbSorteado);
+
+            } else if (comando.equals("q")) {
+                break;
+            }
+        }
+
+        scanner.close();
     }
 }
