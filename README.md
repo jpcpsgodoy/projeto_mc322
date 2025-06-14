@@ -1,4 +1,4 @@
-# FutQuiz
+# FutQuiz (nome temporário)
 
 Projeto da disciplina de Programação Orientada a Objetos (MC322).  
 Trata-se de um jogo baseado em estatísticas de jogadores (quarterbacks).
@@ -121,7 +121,8 @@ Resolva conflitos se aparecerem, depois continue o trabalho.
 ---
 
 ## Progresso
-- As pastas model, view e controller indicam o padrão de projeto MVC, restam 2
+- As pastas model, view e controller indicam o padrão de projeto MVC e junto do padrão fábrica, formam os padroẽs de projeto até agora. Falta 1.
+- A leitura dos dados dos jogadores está pronta e funcionando corretamente
 
 ## Proteções ativas
 
