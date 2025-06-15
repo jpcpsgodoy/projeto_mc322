@@ -9,22 +9,25 @@ import java.util.Set;
 /*
  * Classe abstrata que representa a Rodada do jogo
  * @author Larissa Palhares
+ * @author João Pedro
  */
 public abstract class Rodada {
     protected Set<Integer> idsSorteados = new HashSet<>();
     protected int meta;
-    protected List<Integer> multiplicadores;
+    protected List<Multiplicador> multiplicadores;
     protected int pontosAcumulados;
+    protected ModoPontuacao modoPontuacao;
 
-    public Rodada(int meta) {
+    public Rodada(int meta, ModoPontuacao modoPontuacao) {
         this.meta = meta;
+        this.modoPontuacao = modoPontuacao;
         this.pontosAcumulados = 0;
         this.multiplicadores = new ArrayList<>();
     }
-    
+
     public abstract void iniciarRodada();
 
-    public abstract void exibirMultiplicacao();
+    public abstract boolean exibeEstatistica();
 
     public boolean metaAlcancada() {
         return pontosAcumulados >= meta;
@@ -34,27 +37,37 @@ public abstract class Rodada {
         return pontosAcumulados;
     }
 
-    public List<Integer> getMultiplicadores() {
+    public int getMeta() {
+        return meta;
+    }
+
+    public void adicionarPontos(int pontos) {
+        this.pontosAcumulados += pontos;
+    }
+
+    public List<Multiplicador> getMultiplicadores() {
         return multiplicadores;
     }
 
-    
     public Quarterback sortearQuarterback(List<Quarterback> quarterbacks) {
-        if (idsSorteados.size() >= 10) {
-            return null;
-        }
-
         Random rand = new Random();
         Quarterback sorteado;
 
         do {
             sorteado = quarterbacks.get(rand.nextInt(quarterbacks.size()));
         } while (idsSorteados.contains(sorteado.getId()));
-    
+
         return sorteado;
     }
 
     public void registrarQuarterbackUsado(Quarterback quarterback) {
         idsSorteados.add(quarterback.getId());
+    }
+
+    public int getPontuacaoQB(Quarterback quarterback) {
+        return switch (modoPontuacao) {
+            case TD_PASSE -> quarterback.getTdsPasse();
+            case TD_TOTAL -> quarterback.getTdsTotal();
+        };
     }
 }
