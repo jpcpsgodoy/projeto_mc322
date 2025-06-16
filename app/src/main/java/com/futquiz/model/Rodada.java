@@ -19,6 +19,11 @@ public abstract class Rodada {
     protected int pontosAcumulados;
     protected ModoPontuacao modoPontuacao;
 
+    /*
+     * Construtor da classe Rodada
+     * @param meta a meta de pontos da rodada
+     * @param modoPontuacao modo de pontuação da rodada (TD_PASSE ou TD_TOTAL)
+     */
     public Rodada(int meta, ModoPontuacao modoPontuacao) {
         this.meta = meta;
         this.modoPontuacao = modoPontuacao;
@@ -26,32 +31,59 @@ public abstract class Rodada {
         this.multiplicadores = new ArrayList<>();
     }
 
+    /*
+     * Método abstrato que deve ser implementado para iniciar a rodada
+     */
     public abstract void iniciarRodada();
 
+    /*
+     * Método getter que retorna se as estatísticas devem ser exibidas, a depender do modo da Rodada
+     */
     public boolean getExibeEstatisticas() {
         return exibeEstatisticas;
     }
 
+    /*
+     * Método que verifica se a meta foi alcançada
+     */
     public boolean metaAlcancada() {
         return pontosAcumulados >= meta;
     }
 
+    /*
+     * Método getter que retorna a pontuação acumulada na rodada
+     */
     public int getPontosAcumulados() {
         return pontosAcumulados;
     }
 
+    /*
+     * Método getter que retorna a meta da rodada
+     */
     public int getMeta() {
         return meta;
     }
 
+    /*
+     * Método que adiciona pontos ao acumulo de pontos da rodada
+     * @param pontos a quantidade de pontos a ser adicionada
+     */
     public void adicionarPontos(int pontos) {
         this.pontosAcumulados += pontos;
     }
 
+    /*
+     * Método getter que retorna a lista de multiplicadores disponíveis na rodada
+     */
     public List<Multiplicador> getMultiplicadores() {
         return multiplicadores;
     }
 
+    /*
+     * Método que sorteia um Quarterback da lista de quarterbacks disponíveis
+     * @param quarterbacks a lista de quarterbacks disponíveis para sorteio
+     * @return o Quarterback sorteado
+     */
     public Quarterback sortearQuarterback(List<Quarterback> quarterbacks) {
         Random rand = new Random();
         Quarterback sorteado;
@@ -63,10 +95,19 @@ public abstract class Rodada {
         return sorteado;
     }
 
+    /*
+     * Método que registra o Quarterback que foi sorteado foi escolhido para não ser sorteado novamente
+     * @param quarterback o Quarterback que foi sorteado
+     */
     public void registrarQuarterbackUsado(Quarterback quarterback) {
         idsSorteados.add(quarterback.getId());
     }
 
+    /*
+     * Método getter que retorna a pontuação do Quarterback de acordo com o modo de pontuação escolhido
+     * @param quarterback o Quarterback que deseja obter a pontuação
+     * @return a pontuação do Quarterback
+     */
     public int getPontuacaoQB(Quarterback quarterback) {
         return switch (modoPontuacao) {
             case TD_PASSE -> quarterback.getTdsPasse();
