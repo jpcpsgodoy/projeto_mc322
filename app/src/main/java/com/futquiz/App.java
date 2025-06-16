@@ -24,7 +24,13 @@ public class App {
 
         Rodada rodada;
 
-        rodada = new RodadaDesafio(meta, modo);
+        System.out.println("Escolha o modo de exibição (1 = Normal, 2 = Desafio)");
+        int modoEstatisticas = Integer.parseInt(scanner.nextLine());
+        if (modoEstatisticas == 1) {
+            rodada = new RodadaNormal(meta, modo);
+        } else {
+            rodada = new RodadaDesafio(meta, modo);
+        }
 
         rodada.iniciarRodada();
         System.out.println("Rodada iniciada com meta ajustada: " + rodada.getMeta());
@@ -35,7 +41,7 @@ public class App {
 
             System.out.println("QB sorteado: " + qb.getNome());
             if (rodada.getExibeEstatisticas()) {
-                System.out.println("TDs base: " + rodada.getPontuacaoQB(qb));
+                System.out.println("TDs: " + rodada.getPontuacaoQB(qb));
             }
 
             System.out.println("Escolha um multiplicador: ");
