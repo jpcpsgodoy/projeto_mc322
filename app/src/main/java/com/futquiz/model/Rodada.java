@@ -13,6 +13,7 @@ import java.util.Set;
  */
 public abstract class Rodada {
     protected Set<Integer> idsSorteados = new HashSet<>();
+    protected boolean exibeEstatisticas;
     protected int meta;
     protected List<Multiplicador> multiplicadores;
     protected int pontosAcumulados;
@@ -27,7 +28,9 @@ public abstract class Rodada {
 
     public abstract void iniciarRodada();
 
-    public abstract boolean exibeEstatistica();
+    public boolean getExibeEstatisticas() {
+        return exibeEstatisticas;
+    }
 
     public boolean metaAlcancada() {
         return pontosAcumulados >= meta;

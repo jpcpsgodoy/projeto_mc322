@@ -7,11 +7,13 @@ import java.util.Random;
  * Classe que representa uma rodada de desafio no jogo FutQuiz
  * 
  * @author João Pedro
+ * @author Larissa Palhares
  */
 public class RodadaDesafio extends Rodada {
 
     public RodadaDesafio(int meta, ModoPontuacao modoPontuacao) {
         super(meta, modoPontuacao);
+        this.exibeEstatisticas = false;
     }
 
     /**
@@ -22,14 +24,6 @@ public class RodadaDesafio extends Rodada {
     public void iniciarRodada() {
         this.multiplicadores = MultiplicadorFactory.criarMultiplicadores(meta);
         this.meta = (int) (meta * 1.1);
-    }
-
-    /**
-     * Método que indica se a rodada exibe estatísticas dos quarterbacks
-     */
-    @Override
-    public boolean exibeEstatistica() {
-        return false;
     }
 
     @Override
