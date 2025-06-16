@@ -2,11 +2,13 @@ package com.futquiz.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.futquiz.exception.MetaInvalidaException;
 
 /**
  * Fábrica de multiplicadores que cria instâncias de Multiplicador
  * 
  * @author João Pedro
+ * @author Larissa Palhares
  */
 public class MultiplicadorFactory {
 
@@ -19,6 +21,10 @@ public class MultiplicadorFactory {
      */
 public static List<Multiplicador> criarMultiplicadores(int meta) {
     List<Multiplicador> multiplicadores = new ArrayList<>();
+
+    if (meta <= 0) {
+        throw new MetaInvalidaException("Meta inválida!");
+    }
 
     if (meta <= 2000) {
         for (int i = 0; i < 3; i++) multiplicadores.add(new Multiplicador(1));
