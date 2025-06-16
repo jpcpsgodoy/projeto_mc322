@@ -2,7 +2,7 @@ package com.futquiz.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.futquiz.exception.MetaInvalidaException;
+import com.futquiz.exceptions.MetaInvalidaException;
 
 /**
  * Fábrica de multiplicadores que cria instâncias de Multiplicador
