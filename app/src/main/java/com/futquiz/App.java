@@ -34,7 +34,7 @@ public class App {
             rodada.registrarQuarterbackUsado(qb);
 
             System.out.println("QB sorteado: " + qb.getNome());
-            if (rodada.exibeEstatistica()) {
+            if (rodada.getExibeEstatisticas()) {
                 System.out.println("TDs base: " + rodada.getPontuacaoQB(qb));
             }
 
