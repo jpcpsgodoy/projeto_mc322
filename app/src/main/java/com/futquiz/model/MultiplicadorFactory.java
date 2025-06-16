@@ -17,36 +17,24 @@ public class MultiplicadorFactory {
      *             ou 5000)
      * @return uma lista de multiplicadores correspondentes à meta
      */
-    public static List<Multiplicador> criarMultiplicadores(int meta) {
-        List<Multiplicador> multiplicadores = new ArrayList<>();
+public static List<Multiplicador> criarMultiplicadores(int meta) {
+    List<Multiplicador> multiplicadores = new ArrayList<>();
 
-        switch (meta) {
-            case 2000:
-                for (int i = 0; i < 3; i++)
-                    multiplicadores.add(new Multiplicador(1));
-                for (int i = 0; i < 4; i++)
-                    multiplicadores.add(new Multiplicador(2));
-                multiplicadores.add(new Multiplicador(3));
-                break;
-            case 3500:
-                for (int i = 0; i < 2; i++)
-                    multiplicadores.add(new Multiplicador(1));
-                for (int i = 0; i < 3; i++)
-                    multiplicadores.add(new Multiplicador(2));
-                for (int i = 0; i < 3; i++)
-                    multiplicadores.add(new Multiplicador(3));
-                break;
-            case 5000:
-                for (int i = 0; i < 2; i++)
-                    multiplicadores.add(new Multiplicador(1));
-                for (int i = 0; i < 2; i++)
-                    multiplicadores.add(new Multiplicador(2));
-                for (int i = 0; i < 2; i++)
-                    multiplicadores.add(new Multiplicador(3));
-                for (int i = 0; i < 2; i++)
-                    multiplicadores.add(new Multiplicador(4));
-                break;
-        }
-        return multiplicadores;
+    if (meta <= 2000) {
+        for (int i = 0; i < 3; i++) multiplicadores.add(new Multiplicador(1));
+        for (int i = 0; i < 4; i++) multiplicadores.add(new Multiplicador(2));
+        multiplicadores.add(new Multiplicador(3));
+    } else if (meta <= 3500) {
+        for (int i = 0; i < 2; i++) multiplicadores.add(new Multiplicador(1));
+        for (int i = 0; i < 3; i++) multiplicadores.add(new Multiplicador(2));
+        for (int i = 0; i < 3; i++) multiplicadores.add(new Multiplicador(3));
+    } else if (meta <= 5000) {
+        for (int i = 0; i < 2; i++) multiplicadores.add(new Multiplicador(1));
+        for (int i = 0; i < 2; i++) multiplicadores.add(new Multiplicador(2));
+        for (int i = 0; i < 2; i++) multiplicadores.add(new Multiplicador(3));
+        for (int i = 0; i < 2; i++) multiplicadores.add(new Multiplicador(4));
+    }
+
+    return multiplicadores;
     }
 }
