@@ -78,6 +78,10 @@ public class Quarterback {
         return tdsTotal;
     }
 
+    /*
+     * Método que retorna as estatísticas do quarterback em formato de String.
+     * @return String representando o quarterback.
+     */
     @Override
     public String toString() {
         return "Nome: " + nome +
