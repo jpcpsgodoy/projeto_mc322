@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+             xmlns:fx="http://javafx.com/fxml"
+             fx:controller="com.futquiz.controller.GameController">
+  <TabPane fx:id="tabPane" visible="false">
+    <tabs>
+      <Tab text="Jogo Ativo" closable="false">
+        <!-- conteúdo do jogo -->
+      </Tab>
+      <Tab text="Jogos Recentes" closable="false">
+        <!-- historico de jogos recentes com as informações do jogo(meta, modo de exibição etc.) -->
+      </Tab>
+    </tabs>
+  </TabPane>
+</StackPane>
