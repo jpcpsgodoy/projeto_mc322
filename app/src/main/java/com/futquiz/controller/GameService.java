@@ -61,4 +61,37 @@ public class GameService {
         rodada.getMultiplicadores().remove(multiplicador);
         return pontos;
     }
+
+    /*
+     * Confere se a meta de touchdowns foi alcançada
+     * @return true se a meta foi alcançada, false caso não
+     */
+    public boolean metaAtingida() {
+        return rodada.metaAlcancada();
+    }
+
+    /*
+     * Confere se as estatísticas devem ser exibidas
+     * @return true se as estatísticas devem ser exibidas, false caso não
+     */
+    public boolean deveExibirEstatistica() {
+        return rodada.getExibeEstatisticas();
+    }
+
+    /*
+     * Retorna a lista de multiplicadores disponíveis
+     * @return Lista de multiplicadores disponíveis
+     */
+    public List<Multiplicador> getMultiplicadoresDisponiveis() {
+        return rodada.getMultiplicadores();
+    }
+
+    /*
+     * Retorna a pontuação acumulada na rodada
+     * @return Pontos acumulados na rodada
+     */
+    public int getPontosAcumulados() {
+        return rodada.getPontosAcumulados();
+    }
+    
 }
