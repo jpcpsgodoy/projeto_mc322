@@ -7,17 +7,32 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * Classe principal do jogo, responsável por iniciar a interface gráfica
+ *
+ * @author Gustavo Henrique
+ * @author João Pedro
+ */
 public class App extends Application {
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/GameWindow.fxml"));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("FutQuiz");
-        primaryStage.show();
-    }
-
     public static void main(String[] args) {
         launch(args);
     }
-}
 
+    /**
+     * Inicia a interface gráfica do jogo
+     *
+     * @param primaryStage Janela principal
+     * @throws Exception Erro ao iniciar a interface gráfica
+     */
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/quarterback.png")));
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/GameWindow.fxml"));
+        Scene scene = new Scene(root, 655, 500);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("FutQuiz");
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
+}
