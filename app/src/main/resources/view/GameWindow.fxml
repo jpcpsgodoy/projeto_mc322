@@ -10,11 +10,19 @@
         <tabs>
             <Tab closable="false" text="Jogo Ativo">
                 <AnchorPane fx:id="jogoAtivoPane" prefHeight="400" prefWidth="600">
+
                     <children>
-                        <ImageView fx:id="imageViewQbSorteado" fitHeight="150.0" fitWidth="200.0" layoutX="227.0"
-                                   layoutY="73.0" pickOnBounds="true" preserveRatio="true"/>
-                        <Label fx:id="labelNomeQbSorteado" layoutX="310.0" layoutY="234.0" text="Label"/>
-                        <Button layoutX="295.0" layoutY="266.0" mnemonicParsing="false" text="Sortear"/>
+                        <VBox fx:id="vboxDireita" alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="70.0"
+                              AnchorPane.bottomAnchor="50.0"
+                              AnchorPane.rightAnchor="25.0"
+                              prefWidth="250">
+                            <Label fx:id="labelFotoQbSorteado" text="Foto do Jogador" style="-fx-font-weight: bold;"/>
+                            <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
+                                       preserveRatio="true"/>
+                            <Label fx:id="labelNomeJogador" text="Nome do Jogador:" style="-fx-font-weight: bold;"/>
+                            <Label fx:id="labelNomeQbSorteado" text=""/>
+                            <Button mnemonicParsing="false" onAction="#botaoSortearQb" text="Sortear"/>
+                        </VBox>
                     </children>
                 </AnchorPane>
             </Tab>
@@ -32,15 +40,17 @@
                                AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
                         <columns>
                             <TableColumn fx:id="colNome" editable="false" prefWidth="160.0" resizable="false"
-                                         text="Nome do Jogador"/>
+                                         sortable="false" text="Nome do Jogador"/>
+                            <TableColumn fx:id="colExibicao" editable="false" prefWidth="148.0" resizable="false"
+                                         sortable="false" text="Tipo de Rodada"/>
+                            <TableColumn fx:id="colStats" editable="false" prefWidth="131.0" resizable="false"
+                                         sortable="false" text="Touchdowns"/>
                             <TableColumn fx:id="colMeta" editable="false" prefWidth="89.0" resizable="false"
-                                         text="Meta"/>
+                                         sortable="false" text="Meta"/>
                             <TableColumn fx:id="colPontos" editable="false" prefWidth="107.0" resizable="false"
-                                         text="Pontos Totais"/>
-                            <TableColumn fx:id="colExibicao" editable="false" prefWidth="121.0" resizable="false"
-                                         text="Tipo de Rodada"/>
-                            <TableColumn fx:id="colStats" editable="false" prefWidth="158.0" resizable="false"
-                                         text="Estatísticas"/>
+                                         sortable="false" text="Pontos Totais"/>
+
+
                         </columns>
                     </TableView>
                 </AnchorPane>
