@@ -4,6 +4,7 @@ import com.futquiz.auxiliares.leitorDeCSV;
 import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
 import com.futquiz.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
 public class GameService {
     private Rodada rodada;
     private List<Quarterback> quarterbacks;
+    private List<Jogada> historico = new ArrayList<>();
 
     /**
      * Inicia o jogo com os parâmetros fornecidos, carregando os dados dos
@@ -61,7 +63,7 @@ public class GameService {
     public int aplicarMultiplicador(Quarterback qb, Multiplicador multiplicador) {
         int pontos = multiplicador.aplicar(rodada.getPontuacaoQB(qb));
         rodada.adicionarPontos(pontos);
-        rodada.getMultiplicadores().remove(multiplicador);
+        historico.add(new Jogada(qb, multiplicador, pontos));
         return pontos;
     }
 
