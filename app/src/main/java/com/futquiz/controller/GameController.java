@@ -1,6 +1,7 @@
 package com.futquiz.controller;
 
 import com.futquiz.model.ModoPontuacao;
+import com.futquiz.model.Multiplicador;
 import com.futquiz.model.Quarterback;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -10,19 +11,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.List;
 
-
-/**
- * Controlador principal do jogo, responsável por gerenciar a interface gráfica
- */
 public class GameController {
 
     private final GameService service = new GameService();
+
     @FXML
     private TabPane tabPane;
     @FXML
@@ -37,31 +36,56 @@ public class GameController {
     private TableColumn<?, String> colExibicao;
     @FXML
     private TableColumn<?, String> colStats;
+
     @FXML
     private Label labelNomeQbSorteado;
     @FXML
     private ImageView imagemQBSorteado;
+    @FXML
+    private VBox vboxMultiplicadores;
+    @FXML
+    private Button botaoSortear;
 
+    @FXML
+    private Label labelMeta;
+
+    @FXML
+    private ProgressBar barraDeProgresso;
+
+    @FXML
+    private Label labelProgresso; //
+
+    private Quarterback qbAtual;
+    private List<Multiplicador> multiplicadoresUsados;
+
+    /**
+     * Inicializa o jogo
+     */
     @FXML
     public void initialize() {
         tabPane.setVisible(false);
+        mostrarMensagemBoasVindas();
+        mostrarTelaConfiguracao();
+        tabPane.setVisible(true);
+    }
 
+    /**
+     * Exibe uma mensagem de boas vindas ao jogador
+     */
+    private void mostrarMensagemBoasVindas() {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Boas vindas ao FutQuiz!");
-        alerta.setHeaderText("FutQuiz - Teste seu conhecimento sobre Quarterbacks!");
+        alerta.setHeaderText("Teste seu conhecimento sobre Quarterbacks!");
         alerta.setContentText("Neste jogo, seu objetivo é atingir uma meta de touchdowns escolhendo Quarterbacks sorteados e aplicando multiplicadores estratégicos.\n" +
                 "A cada jogador sorteado, você analisa suas estatísticas e decide como usá-lo para se aproximar da meta de pontos.\n\n" +
                 "Modos de Pontuação:\n" +
                 "• TD Passe: touchdowns de passe do QB\n" +
                 "• TD Total: soma touchdowns de passe + corridos\n\n" +
                 "Tipos de Rodada:\n" +
-                "• Rodada Normal: mostra as estatísticas.\n" +
-                "• Rodada Desafio: oculta estatísticas para desafiar seu conhecimento.");
+                "• Rodada Normal: mostra as estatísticas\n" +
+                "• Rodada Desafio: oculta estatísticas para desafiar seu conhecimento");
+
         alerta.showAndWait();
-
-
-        mostrarTelaConfiguracao();
-        tabPane.setVisible(true);
     }
 
     /**
@@ -74,11 +98,7 @@ public class GameController {
         dialog.setOnCloseRequest(Event::consume);
         dialog.setTitle("Configuração do Jogo");
 
-        Label explicacao = new Label(
-                "Esta é a tela de configuração do FutQuiz.\n" +
-                        "Escolha a meta de pontos, o modo de pontuação e o tipo de rodada para começar a jogar!"
-        );
-
+        Label explicacao = new Label("Esta é a tela de configuração do FutQuiz. Escolha a meta de pontos, o modo de pontuação e o tipo de rodada para começar a jogar! ");
         explicacao.setWrapText(true);
         explicacao.setMaxWidth(300);
 
@@ -117,10 +137,7 @@ public class GameController {
         } else if ("Totais".equals(modoSelecionadoString)) {
             modo = ModoPontuacao.TD_TOTAL;
         } else {
-            Alert erroModo = new Alert(Alert.AlertType.ERROR);
-            erroModo.setTitle("Erro de Seleção");
-            erroModo.setContentText("Escolha entre Passados ou Totais.");
-            erroModo.showAndWait();
+            mostrarAlertaErro("Escolha entre Passados ou Totais.", "Erro de Seleção");
             return;
         }
 
@@ -130,25 +147,40 @@ public class GameController {
         } else if ("Desafio".equals(tipoRodadaSelecionado)) {
             exibe = false;
         } else {
-            Alert erroTipo = new Alert(Alert.AlertType.ERROR);
-            erroTipo.setTitle("Erro de Seleção");
-            erroTipo.setContentText("Escolha entre Normal ou Desafio.");
-            erroTipo.showAndWait();
+            mostrarAlertaErro("Escolha entre Normal ou Desafio.", "Erro de Seleção");
             return;
         }
 
         try {
             service.iniciarJogo(meta, modo, exibe);
+            labelMeta.setText("Meta: " + meta);
+            construirMultiplicadores();
+            limparExibicaoQB();
+            atualizarProgresso(meta, 0);
             tabPane.setVisible(true);
             dialog.close();
         } catch (Exception ex) {
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setTitle("Erro de Carregamento");
-            errorAlert.setContentText(ex.getMessage());
-            errorAlert.showAndWait();
+            mostrarAlertaErro(ex.getMessage(), "Erro de Carregamento");
         }
     }
 
+    /**
+     * Constrói os botões de multiplicadores e os exibe na tela ao lado de seu fator
+     */
+    private void construirMultiplicadores() {
+        vboxMultiplicadores.getChildren().clear();
+
+        for (Multiplicador m : service.getMultiplicadoresDisponiveis()) {
+            Button botao = new Button("Aplicar");
+            Label label = new Label(m.getValor() + "x");
+
+            HBox linha = new HBox(10, botao, label);
+            linha.setAlignment(Pos.CENTER_LEFT);
+            botao.setOnAction(e -> aplicarMultiplicador(botao, label, m));
+            botao.setDisable(qbAtual == null);
+            vboxMultiplicadores.getChildren().add(linha);
+        }
+    }
 
     /**
      * Cria uma ComboBox com Strings
@@ -160,7 +192,6 @@ public class GameController {
         ComboBox<String> box = new ComboBox<>();
         box.getItems().addAll(opcoes);
         box.setValue(opcoes[0]);
-
         return box;
     }
 
@@ -174,28 +205,110 @@ public class GameController {
         ComboBox<Integer> box = new ComboBox<>();
         box.getItems().addAll(opcoes);
         box.setValue(opcoes.getFirst());
-
         return box;
     }
 
     /**
-     * Sortea um quarterback e exibe na tela
+     * Sorteia um quarterback, exibe na tela seu nome e imagem e desabilita o botão de sortear
      */
     @FXML
-    private void botaoSortearQb() {
-        Quarterback qbSorteado = service.sortearQuarterback();
-        String textoLabel = qbSorteado.getNome();
-
+    private void acaoBotaoSortear() {
+        qbAtual = service.sortearQuarterback();
+        String textoQb = qbAtual.getNome();
         if (service.deveExibirEstatistica()) {
-            int tdValor = service.getRodada().getPontuacaoQB(qbSorteado);
-            textoLabel += " (" + tdValor + ")";
+            textoQb += " (" + service.getRodada().getPontuacaoQB(qbAtual) + ")";
         }
-        labelNomeQbSorteado.setText(textoLabel);
 
-        String caminnhoImagem = "/imagens/" + qbSorteado.getId() + ".png";
-        Image qbImagem = new Image(getClass().getResourceAsStream(caminnhoImagem));
-        imagemQBSorteado.setImage(qbImagem);
+        labelNomeQbSorteado.setText(textoQb);
+        imagemQBSorteado.setImage(new Image(getClass().getResourceAsStream("/imagens/" + qbAtual.getId() + ".png")));
+        atualizarEstadoMultiplicadores(true);
+        botaoSortear.setDisable(true);
+    }
 
+    /**
+     * Limpa a exibição do quarterback após a aplicação de um multiplicador e habilita o botão de sortear
+     */
+    private void limparExibicaoQB() {
+        imagemQBSorteado.setImage(new Image(getClass().getResourceAsStream("/icons/qb_generico.png")));
+        labelNomeQbSorteado.setText(null);
+        qbAtual = null;
+        atualizarEstadoMultiplicadores(false);
+        botaoSortear.setDisable(false);
+    }
+
+    /**
+     * Aplica um multiplicador ao quarterback
+     *
+     * @param botao         Botão de aplicação
+     * @param label         Label referente ao multiplicador
+     * @param multiplicador Multiplicador a ser aplicado
+     */
+    private void aplicarMultiplicador(Button botao, Label label, Multiplicador multiplicador) {
+        if (qbAtual == null) return;
+
+        int pontos = service.aplicarMultiplicador(qbAtual, multiplicador);
+        label.setText(multiplicador.getValor() + "x - " + qbAtual.getNome() + " (" + pontos + ")");
+        botao.setDisable(true);
+        botao.setText("Aplicado");
+        atualizarProgresso(service.getRodada().getMeta(), service.getRodada().getPontosAcumulados());
+        limparExibicaoQB();
+    }
+
+    /**
+     * Atualiza o estado dos botões de multiplicadores
+     *
+     * @param habilitar Habilitar ou desabilitar os botões
+     */
+    private void atualizarEstadoMultiplicadores(boolean habilitar) {
+        for (int i = 0; i < vboxMultiplicadores.getChildren().size(); i++) {
+            HBox linha = (HBox) vboxMultiplicadores.getChildren().get(i);
+            Button botao = (Button) linha.getChildren().get(0);
+            Label label = (Label) linha.getChildren().get(1);
+
+            boolean jaUsado = label.getText().contains("-");
+            botao.setDisable(jaUsado || !habilitar);
+        }
+    }
+
+    /**
+     * Atualiza o label e a barra de progresso com a pontuação acumulada e a porcentagem da meta
+     *
+     * @param meta             Meta da rodada
+     * @param pontosAcumulados Pontuação acumulada na rodada
+     */
+    private void atualizarProgresso(int meta, int pontosAcumulados) {
+        double porcentagem = (double) pontosAcumulados / meta * 100;
+        if (porcentagem < 100) {
+            barraDeProgresso.setProgress(porcentagem / 100);
+            labelProgresso.setText(String.format("%.2f%%: %d", porcentagem, pontosAcumulados));
+        } else {
+            barraDeProgresso.setProgress(1);
+            labelProgresso.setText("100%: " + pontosAcumulados);
+        }
+    }
+
+    /**
+     * Exibe um alerta de erro
+     *
+     * @param msg    Mensagem de erro
+     * @param titulo Título do alerta
+     */
+    private void mostrarAlertaErro(String msg, String titulo) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+
+    @FXML
+    private void acaoBotaoReiniciar() {
+
+    }
+
+    @FXML
+    private void acaoBotaoAjuda() {
 
     }
 }
