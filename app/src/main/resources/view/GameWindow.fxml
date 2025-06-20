@@ -14,7 +14,7 @@
                         <VBox fx:id="vboxDireita" alignment="CENTER" prefWidth="250" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="70.0">
                             <Label fx:id="labelFotoQbSorteado" style="-fx-font-weight: bold;" text="Foto do Jogador">
                         <font>
-                           <Font size="14.0" />
+                           <Font size="13.0" />
                         </font></Label>
                             <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                             <Label fx:id="labelNomeJogador" style="-fx-font-weight: bold;" text="Nome do Jogador:" />
@@ -25,7 +25,7 @@
                             <children>
                                 <Label text="Multiplicadores">
                                     <font>
-                                        <Font name="System Bold" size="14.0" />
+                                        <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Label>
                                 <VBox fx:id="vboxMultiplicadores" alignment="CENTER_LEFT" prefWidth="280.0" spacing="10.0" />
