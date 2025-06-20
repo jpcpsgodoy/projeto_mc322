@@ -46,6 +46,15 @@ public class GameController {
     @FXML
     private Button botaoSortear;
 
+    @FXML
+    private Label labelMeta;
+
+    @FXML
+    private ProgressBar barraDeProgresso;
+
+    @FXML
+    private Label labelProgresso; //
+
     private Quarterback qbAtual;
     private List<Multiplicador> multiplicadoresUsados;
 
@@ -73,8 +82,8 @@ public class GameController {
                 "• TD Passe: touchdowns de passe do QB\n" +
                 "• TD Total: soma touchdowns de passe + corridos\n\n" +
                 "Tipos de Rodada:\n" +
-                "• Rodada Normal: mostra as estatísticas.\n" +
-                "• Rodada Desafio: oculta estatísticas para desafiar seu conhecimento.");
+                "• Rodada Normal: mostra as estatísticas\n" +
+                "• Rodada Desafio: oculta estatísticas para desafiar seu conhecimento");
 
         alerta.showAndWait();
     }
@@ -128,10 +137,7 @@ public class GameController {
         } else if ("Totais".equals(modoSelecionadoString)) {
             modo = ModoPontuacao.TD_TOTAL;
         } else {
-            Alert erroModo = new Alert(Alert.AlertType.ERROR);
-            erroModo.setTitle("Erro de Seleção");
-            erroModo.setContentText("Escolha entre Passados ou Totais.");
-            erroModo.showAndWait();
+            mostrarAlertaErro("Escolha entre Passados ou Totais.", "Erro de Seleção");
             return;
         }
 
@@ -141,24 +147,38 @@ public class GameController {
         } else if ("Desafio".equals(tipoRodadaSelecionado)) {
             exibe = false;
         } else {
-            Alert erroTipo = new Alert(Alert.AlertType.ERROR);
-            erroTipo.setTitle("Erro de Seleção");
-            erroTipo.setContentText("Escolha entre Normal ou Desafio.");
-            erroTipo.showAndWait();
+            mostrarAlertaErro("Escolha entre Normal ou Desafio.", "Erro de Seleção");
             return;
         }
 
         try {
             service.iniciarJogo(meta, modo, exibe);
+            labelMeta.setText("Meta: " + meta);
             construirMultiplicadores();
             limparExibicaoQB();
+            atualizarProgresso(meta, 0);
             tabPane.setVisible(true);
             dialog.close();
         } catch (Exception ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro de Carregamento");
-            alert.setContentText(ex.getMessage());
-            alert.showAndWait();
+            mostrarAlertaErro(ex.getMessage(), "Erro de Carregamento");
+        }
+    }
+
+    /**
+     * Constrói os botões de multiplicadores e os exibe na tela ao lado de seu fator
+     */
+    private void construirMultiplicadores() {
+        vboxMultiplicadores.getChildren().clear();
+
+        for (Multiplicador m : service.getMultiplicadoresDisponiveis()) {
+            Button botao = new Button("Aplicar");
+            Label label = new Label(m.getValor() + "x");
+
+            HBox linha = new HBox(10, botao, label);
+            linha.setAlignment(Pos.CENTER_LEFT);
+            botao.setOnAction(e -> aplicarMultiplicador(botao, label, m));
+            botao.setDisable(qbAtual == null);
+            vboxMultiplicadores.getChildren().add(linha);
         }
     }
 
@@ -192,7 +212,7 @@ public class GameController {
      * Sorteia um quarterback, exibe na tela seu nome e imagem e desabilita o botão de sortear
      */
     @FXML
-    private void botaoSortearQb() {
+    private void acaoBotaoSortear() {
         qbAtual = service.sortearQuarterback();
         String textoQb = qbAtual.getNome();
         if (service.deveExibirEstatistica()) {
@@ -209,28 +229,11 @@ public class GameController {
      * Limpa a exibição do quarterback após a aplicação de um multiplicador e habilita o botão de sortear
      */
     private void limparExibicaoQB() {
-        imagemQBSorteado.setImage(null);
+        imagemQBSorteado.setImage(new Image(getClass().getResourceAsStream("/icons/qb_generico.png")));
         labelNomeQbSorteado.setText(null);
         qbAtual = null;
         atualizarEstadoMultiplicadores(false);
         botaoSortear.setDisable(false);
-    }
-
-    /**
-     * Constrói os botões de multiplicadores e os exibe na tela ao lado de seu fator
-     */
-    private void construirMultiplicadores() {
-        vboxMultiplicadores.getChildren().clear();
-
-        for (Multiplicador m : service.getMultiplicadoresDisponiveis()) {
-            Button botao = new Button("Aplicar");
-            Label label = new Label(m.getValor() + "x");
-            HBox linha = new HBox(10, botao, label);
-            linha.setAlignment(Pos.CENTER_LEFT);
-            botao.setOnAction(e -> aplicarMultiplicador(botao, label, m));
-            botao.setDisable(qbAtual == null);
-            vboxMultiplicadores.getChildren().add(linha);
-        }
     }
 
     /**
@@ -246,6 +249,8 @@ public class GameController {
         int pontos = service.aplicarMultiplicador(qbAtual, multiplicador);
         label.setText(multiplicador.getValor() + "x - " + qbAtual.getNome() + " (" + pontos + ")");
         botao.setDisable(true);
+        botao.setText("Aplicado");
+        atualizarProgresso(service.getRodada().getMeta(), service.getRodada().getPontosAcumulados());
         limparExibicaoQB();
     }
 
@@ -263,5 +268,47 @@ public class GameController {
             boolean jaUsado = label.getText().contains("-");
             botao.setDisable(jaUsado || !habilitar);
         }
+    }
+
+    /**
+     * Atualiza o label e a barra de progresso com a pontuação acumulada e a porcentagem da meta
+     *
+     * @param meta             Meta da rodada
+     * @param pontosAcumulados Pontuação acumulada na rodada
+     */
+    private void atualizarProgresso(int meta, int pontosAcumulados) {
+        double porcentagem = (double) pontosAcumulados / meta * 100;
+        if (porcentagem < 100) {
+            barraDeProgresso.setProgress(porcentagem / 100);
+            labelProgresso.setText(String.format("%.2f%%: %d", porcentagem, pontosAcumulados));
+        } else {
+            barraDeProgresso.setProgress(1);
+            labelProgresso.setText("100%: " + pontosAcumulados);
+        }
+    }
+
+    /**
+     * Exibe um alerta de erro
+     *
+     * @param msg    Mensagem de erro
+     * @param titulo Título do alerta
+     */
+    private void mostrarAlertaErro(String msg, String titulo) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
+
+    @FXML
+    private void acaoBotaoReiniciar() {
+
+    }
+
+    @FXML
+    private void acaoBotaoAjuda() {
+
     }
 }
