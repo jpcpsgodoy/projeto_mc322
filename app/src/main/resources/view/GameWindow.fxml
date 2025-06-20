@@ -12,14 +12,34 @@
                 <AnchorPane fx:id="jogoAtivoPane" prefHeight="400" prefWidth="600">
                     <children>
                         <VBox fx:id="vboxDireita" alignment="CENTER" prefWidth="250" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="70.0">
-                            <Label fx:id="labelFotoQbSorteado" style="-fx-font-weight: bold;" text="Foto do Jogador" />
+                            <Label fx:id="labelFotoQbSorteado" style="-fx-font-weight: bold;" text="Foto do Jogador">
+                        <font>
+                           <Font size="14.0" />
+                        </font></Label>
                             <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                             <Label fx:id="labelNomeJogador" style="-fx-font-weight: bold;" text="Nome do Jogador:" />
                             <Label fx:id="labelNomeQbSorteado" text="" />
-                            <Button fx:id="botaoSortear" mnemonicParsing="false" onAction="#botaoSortearQb" text="Sortear" />
+                            <Button fx:id="botaoSortear" mnemonicParsing="false" onAction="#acaoBotaoSortear" text="Sortear" />
                         </VBox>
-
-                        <VBox fx:id="vboxMultiplicadores" layoutX="48.0" layoutY="96.0" prefHeight="297.0" prefWidth="299.0" spacing="10" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="96.0" />
+                        <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="113.0">
+                            <children>
+                                <Label text="Multiplicadores">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <VBox fx:id="vboxMultiplicadores" alignment="CENTER_LEFT" prefWidth="280.0" spacing="10.0" />
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="5" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="10">
+                            <Label fx:id="labelMeta" text="Meta:">
+                                <font>
+                                    <Font name="System Bold" size="20.0" />
+                                </font>
+                            </Label>
+                            <ProgressBar fx:id="barraDeProgresso" prefWidth="550" progress="0.0" />
+                            <Label fx:id="labelProgresso" text="0%: 0" />
+                        </VBox>
                     </children>
                 </AnchorPane>
             </Tab>
@@ -38,8 +58,6 @@
                             <TableColumn fx:id="colStats" editable="false" prefWidth="131.0" resizable="false" sortable="false" text="Touchdowns" />
                             <TableColumn fx:id="colMeta" editable="false" prefWidth="89.0" resizable="false" sortable="false" text="Meta" />
                             <TableColumn fx:id="colPontos" editable="false" prefWidth="107.0" resizable="false" sortable="false" text="Pontos Totais" />
-
-
                         </columns>
                     </TableView>
                 </AnchorPane>
