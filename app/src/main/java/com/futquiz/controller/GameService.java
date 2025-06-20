@@ -1,23 +1,28 @@
 package com.futquiz.controller;
 
-import java.util.List;
-
-import com.futquiz.auxiliares.*;
-import com.futquiz.exceptions.*;
+import com.futquiz.auxiliares.leitorDeCSV;
+import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
 import com.futquiz.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Serviço responsável por gerenciar a lógica do jogo
+ *
+ * @author Larissa Palhares
+ * @author João Pedro
  */
 public class GameService {
     private Rodada rodada;
     private List<Quarterback> quarterbacks;
+    private List<Jogada> historico = new ArrayList<>();
 
     /**
      * Inicia o jogo com os parâmetros fornecidos, carregando os dados dos
      * quarterbacks
      * a partir de um arquivo CSV.
-     * 
+     *
      * @param meta              Meta de touchdowns a ser alcançada no jogo
      * @param modo              Modo de pontuação a ser utilizado no jogo (TD_PASSE
      *                          ou TD_TOTAL)
@@ -38,7 +43,7 @@ public class GameService {
     /**
      * Sorteia um quarterback da lista de quarterbacks disponíveis e o registra
      * como usado na rodada atual.
-     * 
+     *
      * @return O quarterback sorteado
      */
     public Quarterback sortearQuarterback() {
@@ -50,7 +55,7 @@ public class GameService {
     /**
      * Aplica um multiplicador à pontuação do quarterback
      * e atualiza a pontuação acumulada da rodada.
-     * 
+     *
      * @param qb            Quarterback cuja pontuação será multiplicada
      * @param multiplicador Multiplicador a ser aplicado à pontuação do quarterback
      * @return A pontuação resultante após a aplicação do multiplicador
@@ -58,7 +63,7 @@ public class GameService {
     public int aplicarMultiplicador(Quarterback qb, Multiplicador multiplicador) {
         int pontos = multiplicador.aplicar(rodada.getPontuacaoQB(qb));
         rodada.adicionarPontos(pontos);
-        rodada.getMultiplicadores().remove(multiplicador);
+        historico.add(new Jogada(qb, multiplicador, pontos));
         return pontos;
     }
 
@@ -93,5 +98,13 @@ public class GameService {
     public int getPontosAcumulados() {
         return rodada.getPontosAcumulados();
     }
-    
+
+    /**
+     * Retorna a rodada atual
+     *
+     * @return A rodada atual
+     */
+    public Rodada getRodada() {
+        return rodada;
+    }
 }
