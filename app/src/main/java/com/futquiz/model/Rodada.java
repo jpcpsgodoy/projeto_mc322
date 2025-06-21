@@ -10,6 +10,7 @@ import java.util.Set;
  * Classe abstrata que representa a Rodada do jogo
  * @author Larissa Palhares
  * @author João Pedro
+ * @author Gustavo Henrique
  */
 public abstract class Rodada {
     protected Set<Integer> idsSorteados = new HashSet<>();
@@ -49,6 +50,16 @@ public abstract class Rodada {
     public boolean metaAlcancada() {
         return pontosAcumulados >= meta;
     }
+
+    public boolean jogadorVenceu() {
+        return multiplicadores.isEmpty() && metaAlcancada();
+    }
+
+
+    public boolean jogadorPerdeu() {
+        return multiplicadores.isEmpty() && !metaAlcancada();
+    }
+
 
     /*
      * Método getter que retorna a pontuação acumulada na rodada
@@ -115,3 +126,4 @@ public abstract class Rodada {
         };
     }
 }
+
