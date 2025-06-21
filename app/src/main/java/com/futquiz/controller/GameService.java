@@ -36,8 +36,8 @@ public class GameService {
      *                                        inválido
      * @throws TipoRodadaInvalidoException se o tipo de rodada fornecido for inválido 
      */
-    public void iniciarJogo(int meta, ModoPontuacao modo, boolean exibeEstatisticas)
-            throws NaoFoiPossivelCarregarArquivoException
+    public void iniciarJogo(int meta, String modo, String exibeEstatisticas)
+            throws NaoFoiPossivelCarregarArquivoException,
                    ModoPontuacaoInvalidoException,
                    TipoRodadaInvalidoException {
         quarterbacks = leitorDeCSV.carregarDados("/dados.csv");
