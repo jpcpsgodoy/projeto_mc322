@@ -126,33 +126,11 @@ public class GameController {
      */
     private void acaoBotaoIniciar(ComboBox<Integer> metaBox, ComboBox<String> modoBox, ComboBox<String> tipoBox, Stage dialog) {
         int meta = metaBox.getValue();
-        String modoSelecionadoString = modoBox.getValue();
+        String modoSelecionado = modoBox.getValue();
         String tipoRodadaSelecionado = tipoBox.getValue();
-        boolean exibe;
-        ModoPontuacao modo;
-
-        //implementar exceção aqui depois e tirar esse if else feio
-        if ("Passados".equals(modoSelecionadoString)) {
-            modo = ModoPontuacao.TD_PASSE;
-        } else if ("Totais".equals(modoSelecionadoString)) {
-            modo = ModoPontuacao.TD_TOTAL;
-        } else {
-            mostrarAlertaErro("Escolha entre Passados ou Totais.", "Erro de Seleção");
-            return;
-        }
-
-        //implementar excecao aqui depois e tirar esse if else feio
-        if ("Normal".equals(tipoRodadaSelecionado)) {
-            exibe = true;
-        } else if ("Desafio".equals(tipoRodadaSelecionado)) {
-            exibe = false;
-        } else {
-            mostrarAlertaErro("Escolha entre Normal ou Desafio.", "Erro de Seleção");
-            return;
-        }
 
         try {
-            service.iniciarJogo(meta, modo, exibe);
+            service.iniciarJogo(meta, modoSelecionado, tipoRodadaSelecionado);
             labelMeta.setText("Meta: " + meta);
             construirMultiplicadores();
             limparExibicaoQB();

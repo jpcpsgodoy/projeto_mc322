@@ -1,7 +1,9 @@
 package com.futquiz.controller;
 
 import com.futquiz.auxiliares.leitorDeCSV;
+import com.futquiz.exceptions.ModoPontuacaoInvalidoException;
 import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
+import com.futquiz.exceptions.TipoRodadaInvalidoException;
 import com.futquiz.model.*;
 
 import java.util.ArrayList;
@@ -30,12 +32,17 @@ public class GameService {
      *                          o jogo
      * @throws NaoFoiPossivelCarregarArquivoException se ocorrer um erro ao carregar
      *                                                o arquivo CSV
+     * @throws ModoPontuacaoInvalidoException se o modo de pontuação fornecido for
+     *                                        inválido
+     * @throws TipoRodadaInvalidoException se o tipo de rodada fornecido for inválido 
      */
     public void iniciarJogo(int meta, ModoPontuacao modo, boolean exibeEstatisticas)
-            throws NaoFoiPossivelCarregarArquivoException {
+            throws NaoFoiPossivelCarregarArquivoException
+                   ModoPontuacaoInvalidoException,
+                   TipoRodadaInvalidoException {
         quarterbacks = leitorDeCSV.carregarDados("/dados.csv");
 
-        rodada = exibeEstatisticas ? new RodadaNormal(meta, modo) : new RodadaDesafio(meta, modo);
+        rodada = RodadaFactory.criarRodada(meta, modo, exibeEstatisticas);
 
         rodada.iniciarRodada();
     }
@@ -67,7 +74,7 @@ public class GameService {
         return pontos;
     }
 
-    /*
+    /**
      * Confere se a meta de touchdowns foi alcançada
      * @return true se a meta foi alcançada, false caso não
      */
@@ -75,7 +82,7 @@ public class GameService {
         return rodada.metaAlcancada();
     }
 
-    /*
+    /**
      * Confere se as estatísticas devem ser exibidas
      * @return true se as estatísticas devem ser exibidas, false caso não
      */
@@ -83,7 +90,7 @@ public class GameService {
         return rodada.getExibeEstatisticas();
     }
 
-    /*
+    /**
      * Retorna a lista de multiplicadores disponíveis
      * @return Lista de multiplicadores disponíveis
      */
@@ -91,7 +98,7 @@ public class GameService {
         return rodada.getMultiplicadores();
     }
 
-    /*
+    /**
      * Retorna a pontuação acumulada na rodada
      * @return Pontos acumulados na rodada
      */
