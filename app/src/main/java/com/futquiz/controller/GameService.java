@@ -14,26 +14,28 @@ import java.util.List;
  *
  * @author Larissa Palhares
  * @author João Pedro
+ * @author Gustavo Henrique
  */
 public class GameService {
     private Rodada rodada;
     private List<Quarterback> quarterbacks;
     private List<Jogada> historico = new ArrayList<>();
+    private boolean jogoTerminado = false;
 
     /**
      * Inicia o jogo com os parâmetros fornecidos, carregando os dados dos
      * quarterbacks
      * a partir de um arquivo CSV.
      *
-     * @param meta              Meta de touchdowns a ser alcançada no jogo
-     * @param modo              Modo de pontuação a ser utilizado no jogo (TD_PASSE
-     *                          ou TD_TOTAL)
+     * @param meta Meta de touchdowns a ser alcançada no jogo
+     * @param modo Modo de pontuação a ser utilizado no jogo (TD_PASSE
+     * ou TD_TOTAL)
      * @param exibeEstatisticas Indica se as estatísticas devem ser exibidas durante
-     *                          o jogo
+     * o jogo
      * @throws NaoFoiPossivelCarregarArquivoException se ocorrer um erro ao carregar
-     *                                                o arquivo CSV
+     * o arquivo CSV
      * @throws ModoPontuacaoInvalidoException se o modo de pontuação fornecido for
-     *                                        inválido
+     * inválido
      * @throws TipoRodadaInvalidoException se o tipo de rodada fornecido for inválido 
      */
     public void iniciarJogo(int meta, String modo, String exibeEstatisticas)
@@ -63,7 +65,7 @@ public class GameService {
      * Aplica um multiplicador à pontuação do quarterback
      * e atualiza a pontuação acumulada da rodada.
      *
-     * @param qb            Quarterback cuja pontuação será multiplicada
+     * @param qb Quarterback cuja pontuação será multiplicada
      * @param multiplicador Multiplicador a ser aplicado à pontuação do quarterback
      * @return A pontuação resultante após a aplicação do multiplicador
      */
@@ -71,8 +73,41 @@ public class GameService {
         int pontos = multiplicador.aplicar(rodada.getPontuacaoQB(qb));
         rodada.adicionarPontos(pontos);
         historico.add(new Jogada(qb, multiplicador, pontos));
+
+        if (jogoAcabou()) {
+            jogoTerminado = true;
+        }
+
+
         return pontos;
     }
+
+    /**
+     * Verifica se o jogador venceu a rodada
+     * @return true se o jogador venceu, false caso contrário
+     */
+    public boolean jogadorVenceu() {
+        return rodada.jogadorVenceu();
+    }
+
+
+    /**
+     * Verifica se o jogador perdeu a rodada
+     * @return true se o jogador perdeu, false caso contrário
+     */
+    public boolean jogadorPerdeu() {
+        return rodada.jogadorPerdeu();
+    }
+
+
+    /**
+     * Verifica se o jogo acabou
+     * @return true se o jogo acabou, false caso contrário
+     */
+    public boolean jogoAcabou(){
+        return rodada.jogadorPerdeu() || rodada.jogadorVenceu();
+    }
+
 
     /**
      * Confere se a meta de touchdowns foi alcançada
