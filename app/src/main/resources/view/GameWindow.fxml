@@ -1,63 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futquiz.controller.GameController">
+<?import javafx.scene.text.Font?>
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.futquiz.controller.GameController">
     <TabPane fx:id="tabPane" visible="true">
         <tabs>
             <Tab closable="false" text="Jogo Ativo">
                 <AnchorPane fx:id="jogoAtivoPane" prefHeight="400" prefWidth="600">
                     <children>
-                        <VBox fx:id="vboxDireita" alignment="CENTER" prefWidth="250" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="70.0">
-                            <Label fx:id="labelFotoQbSorteado" style="-fx-font-weight: bold;" text="Foto do Jogador">
-                        <font>
-                           <Font size="13.0" />
-                        </font></Label>
-                            <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                            <Label fx:id="labelNomeJogador" style="-fx-font-weight: bold;" text="Nome do Jogador:" />
-                            <Label fx:id="labelNomeQbSorteado" text="" />
-                            <Button fx:id="botaoSortear" mnemonicParsing="false" onAction="#acaoBotaoSortear" text="Sortear" />
+                        <VBox fx:id="vboxDireita" alignment="CENTER" layoutX="379.0" layoutY="100.0" prefWidth="250"
+                              spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="25.0"
+                              AnchorPane.topAnchor="100.0">
+                            <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
+                                       preserveRatio="true"/>
+                            <Label fx:id="labelNomeJogador" style="-fx-font-weight: bold;" text="Nome do Jogador:"/>
+                            <Label fx:id="labelNomeQbSorteado" text=""/>
+                            <Button fx:id="botaoSortear" mnemonicParsing="false" onAction="#acaoBotaoSortear"
+                                    text="Sortear"/>
                         </VBox>
-                        <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="113.0">
+                        <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.leftAnchor="25.0"
+                              AnchorPane.topAnchor="113.0">
                             <children>
                                 <Label text="Multiplicadores">
                                     <font>
-                                        <Font name="System Bold" size="13.0" />
+                                        <Font name="System Bold" size="13.0"/>
                                     </font>
                                 </Label>
-                                <VBox fx:id="vboxMultiplicadores" alignment="CENTER_LEFT" prefWidth="280.0" spacing="10.0" />
+                                <VBox fx:id="vboxMultiplicadores" alignment="CENTER_LEFT" prefWidth="280.0"
+                                      spacing="10.0"/>
                             </children>
                         </VBox>
-                        <VBox alignment="CENTER" spacing="5" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="10">
+                        <VBox alignment="CENTER" layoutY="32.0" spacing="5" AnchorPane.leftAnchor="0.0"
+                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
                             <Label fx:id="labelMeta" text="Meta:">
                                 <font>
-                                    <Font name="System Bold" size="20.0" />
+                                    <Font name="System Bold" size="20.0"/>
                                 </font>
                             </Label>
-                            <ProgressBar fx:id="barraDeProgresso" prefWidth="550" progress="0.0" />
-                            <Label fx:id="labelProgresso" text="0%: 0" />
+                            <ProgressBar fx:id="barraDeProgresso" prefWidth="550" progress="0.0"/>
+                            <Label fx:id="labelProgresso" text="0%: 0"/>
                         </VBox>
+                        <Button fx:id="botaoAjuda" layoutX="605.0" layoutY="6.0" mnemonicParsing="false"
+                                onAction="#acaoBotaoAjuda" text="?"/>
+                        <Button fx:id="botaoReiniciar" layoutX="527.0" layoutY="6.0" mnemonicParsing="false"
+                                onAction="#acaoBotaoReiniciar" text="Reiniciar"/>
                     </children>
                 </AnchorPane>
             </Tab>
             <Tab closable="false" text="Jogos Recentes">
                 <AnchorPane fx:id="jogosSalvosPane" prefHeight="400" prefWidth="600">
-                    <Label alignment="TOP_CENTER" layoutX="237.0" layoutY="-1.0" prefHeight="35.0" prefWidth="162.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Histórico de Jogos" />
-                    <Label alignment="TOP_CENTER" layoutY="20.0" prefHeight="11.0" prefWidth="654.0" text="Aqui estão listados alguns jogos salvos. Passe o mouse sobre a coluna de pontos para ver como os jogadores foram dispostos.">
+                    <Label alignment="TOP_CENTER" layoutX="237.0" layoutY="-1.0" prefHeight="35.0" prefWidth="162.0"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Histórico de Jogos"/>
+                    <Label alignment="TOP_CENTER" layoutY="20.0" prefHeight="11.0" prefWidth="654.0"
+                           text="Aqui estão listados alguns jogos salvos. Passe o mouse sobre a coluna de pontos para ver como os jogadores foram dispostos.">
                         <font>
-                            <Font size="10.0" />
+                            <Font size="10.0"/>
                         </font>
                     </Label>
-                    <TableView fx:id="tabelaJogosSalvos" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
+                    <TableView fx:id="tabelaJogosSalvos" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
                         <columns>
-                            <TableColumn fx:id="colNome" editable="false" prefWidth="160.0" resizable="false" sortable="false" text="Nome do Jogador" />
-                            <TableColumn fx:id="colExibicao" editable="false" prefWidth="148.0" resizable="false" sortable="false" text="Tipo de Rodada" />
-                            <TableColumn fx:id="colStats" editable="false" prefWidth="131.0" resizable="false" sortable="false" text="Touchdowns" />
-                            <TableColumn fx:id="colMeta" editable="false" prefWidth="89.0" resizable="false" sortable="false" text="Meta" />
-                            <TableColumn fx:id="colPontos" editable="false" prefWidth="107.0" resizable="false" sortable="false" text="Pontos Totais" />
+                            <TableColumn fx:id="colNome" editable="false" prefWidth="160.0" resizable="false"
+                                         sortable="false" text="Nome do Jogador"/>
+                            <TableColumn fx:id="colExibicao" editable="false" prefWidth="148.0" resizable="false"
+                                         sortable="false" text="Tipo de Rodada"/>
+                            <TableColumn fx:id="colStats" editable="false" prefWidth="131.0" resizable="false"
+                                         sortable="false" text="Touchdowns"/>
+                            <TableColumn fx:id="colMeta" editable="false" prefWidth="89.0" resizable="false"
+                                         sortable="false" text="Meta"/>
+                            <TableColumn fx:id="colPontos" editable="false" prefWidth="107.0" resizable="false"
+                                         sortable="false" text="Pontos Totais"/>
                         </columns>
                     </TableView>
                 </AnchorPane>

@@ -122,7 +122,7 @@ public class GameController {
      * @param metaBox Combobox com as opções de meta
      * @param modoBox Combobox com as opções de modo
      * @param tipoBox Combobox com as opções de tipo
-     * @param dialog  Janela de configuração
+     * @param dialog Janela de configuração
      */
     private void acaoBotaoIniciar(ComboBox<Integer> metaBox, ComboBox<String> modoBox, ComboBox<String> tipoBox, Stage dialog) {
         int meta = metaBox.getValue();
@@ -217,19 +217,29 @@ public class GameController {
     /**
      * Aplica um multiplicador ao quarterback
      *
-     * @param botao         Botão de aplicação
-     * @param label         Label referente ao multiplicador
+     * @param botao Botão de aplicação
+     * @param label Label referente ao multiplicador
      * @param multiplicador Multiplicador a ser aplicado
      */
     private void aplicarMultiplicador(Button botao, Label label, Multiplicador multiplicador) {
         if (qbAtual == null) return;
-
         int pontos = service.aplicarMultiplicador(qbAtual, multiplicador);
         label.setText(multiplicador.getValor() + "x - " + qbAtual.getNome() + " (" + pontos + ")");
         botao.setDisable(true);
         botao.setText("Aplicado");
         atualizarProgresso(service.getRodada().getMeta(), service.getRodada().getPontosAcumulados());
+
+        if (service.jogoAcabou()) {
+            if (service.jogadorVenceu()) {
+                mostrarAlertaVitoria();
+            } else {
+                mostrarAlertaDerrota();
+            }
+        }
+
         limparExibicaoQB();
+
+
     }
 
     /**
@@ -251,7 +261,7 @@ public class GameController {
     /**
      * Atualiza o label e a barra de progresso com a pontuação acumulada e a porcentagem da meta
      *
-     * @param meta             Meta da rodada
+     * @param meta Meta da rodada
      * @param pontosAcumulados Pontuação acumulada na rodada
      */
     private void atualizarProgresso(int meta, int pontosAcumulados) {
@@ -268,7 +278,7 @@ public class GameController {
     /**
      * Exibe um alerta de erro
      *
-     * @param msg    Mensagem de erro
+     * @param msg Mensagem de erro
      * @param titulo Título do alerta
      */
     private void mostrarAlertaErro(String msg, String titulo) {
@@ -288,5 +298,20 @@ public class GameController {
     @FXML
     private void acaoBotaoAjuda() {
 
+    }
+
+    private void mostrarAlertaVitoria() {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Vitória!");
+        alerta.setContentText("Você atingiu a meta de touchdowns!");
+        alerta.showAndWait();
+    }
+
+
+    private void mostrarAlertaDerrota() {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Derrota");
+        alerta.setContentText("Os multiplicadores acabaram e você não atingiu a meta.");
+        alerta.showAndWait();
     }
 }
