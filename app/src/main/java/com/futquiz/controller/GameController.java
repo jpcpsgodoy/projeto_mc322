@@ -1,7 +1,14 @@
 package com.futquiz.controller;
 
+import com.futquiz.auxiliares.GerenciadorArquivos;
+import com.futquiz.exceptions.FalhaPersistenciaArquivoException;
+import com.futquiz.exceptions.ModoPontuacaoInvalidoException;
+import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
+import com.futquiz.exceptions.TipoRodadaInvalidoException;
 import com.futquiz.model.Multiplicador;
 import com.futquiz.model.Quarterback;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,23 +35,20 @@ import java.util.List;
  */
 public class GameController {
 
-    private final GameService service = new GameService();
+    private final GameService service = GameService.getInstance();
 
     @FXML
     private TabPane tabPane;
     @FXML
-    private TableView<?> tabelaJogosRecentes;
+    private TableView<String[]> tabelaJogosSalvos;
     @FXML
-    private TableColumn<?, String> colNome;
+    private TableColumn<String[], String> colExibicao;
     @FXML
-    private TableColumn<?, Integer> colMeta;
+    private TableColumn<String[], String> colStats;
     @FXML
-    private TableColumn<?, Integer> colPontos;
+    private TableColumn<String[], String> colMeta;
     @FXML
-    private TableColumn<?, String> colExibicao;
-    @FXML
-    private TableColumn<?, String> colStats;
-
+    private TableColumn<String[], String> colPontos;
     @FXML
     private Label labelNomeQbSorteado;
     @FXML
@@ -67,6 +71,11 @@ public class GameController {
 
     private Quarterback qbAtual;
 
+    private boolean abrirHistorico = false;
+
+    public void setAbrirHistorico(boolean abrir) {
+        this.abrirHistorico = abrir;
+    }
 
     /**
      * Inicializa o jogo
@@ -74,8 +83,53 @@ public class GameController {
     @FXML
     public void initialize() {
         tabPane.setVisible(false);
+        configurarTabelaJogosRecentes();
         mostrarTelaConfiguracao();
         tabPane.setVisible(true);
+    }
+
+
+    /**
+     * Configura a tabela de jogos recentes que mostrará oss dados das ultimas rodadas
+     */
+    private void configurarTabelaJogosRecentes() {
+        colExibicao.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[0]));
+        colStats.setCellValueFactory(data -> new SimpleStringProperty("TDs " + data.getValue()[1]));
+        colMeta.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[2]));
+        colPontos.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[3]));
+        colPontos.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setTooltip(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    String[] row = getTableView().getItems().get(getIndex());
+                    Tooltip tooltip = new Tooltip(row[4]);
+                    setTooltip(tooltip);
+                    int pontos = Integer.parseInt(item);
+                    int meta = Integer.parseInt(row[2]);
+                    if (pontos >= meta) {
+                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+                    } else {
+                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
+
+        try {
+            List<String[]> historico = GerenciadorArquivos.carregarHistoricoJogos();
+            tabelaJogosSalvos.setItems(FXCollections.observableArrayList(historico));
+        } catch (FalhaPersistenciaArquivoException e) {
+            // Informa o usuário sobre o erro crítico
+            String header = "Você cometeu uma falta!";
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro", header, e.getMessage(), "/icons/erro(falta).png");
+        }
+
     }
 
 
@@ -125,7 +179,9 @@ public class GameController {
             service.iniciarJogo(meta, modoSelecionado, tipoRodadaSelecionado);
             configurarTelaRodada();
             dialog.close();
-        } catch (Exception ex) {
+        } catch (NaoFoiPossivelCarregarArquivoException |
+                 ModoPontuacaoInvalidoException |
+                 TipoRodadaInvalidoException ex) {
             String header = "Você cometeu uma falta!";
             mostrarAlerta(Alert.AlertType.ERROR, "Erro", header, ex.getMessage(), "/icons/erro(falta).png");
         }
@@ -150,7 +206,6 @@ public class GameController {
      */
     private void construirMultiplicadores() {
         vboxMultiplicadores.getChildren().clear();
-
         for (Multiplicador m : service.getMultiplicadoresDisponiveis()) {
             Button botao = new Button("Aplicar");
             Label label = new Label(m.getValor() + "x");
@@ -248,6 +303,9 @@ public class GameController {
                 String header = "Que pena, vocé perdeu!";
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Derrota.", header, mensagem, "/icons/derrota.png");
             }
+            botaoSortear.setDisable(true);
+            //atualiza tabela em tempo real
+            configurarTabelaJogosRecentes();
             // mostrar tela para reiniciar ou voltar à tela de configuração
             mostrarTelaNovoJogo();
         }
@@ -299,7 +357,7 @@ public class GameController {
 
         Stage stage = (Stage) tabPane.getScene().getWindow();
         alert.initOwner(stage);
-    
+
         ButtonType botaoSim = new ButtonType("Sim");
         ButtonType botaoNao = new ButtonType("Não");
 
@@ -357,7 +415,9 @@ public class GameController {
                 try {
                     service.reiniciarJogoMesmasConfigs();
                     configurarTelaRodada();
-                } catch (Exception ex) {
+                } catch (NaoFoiPossivelCarregarArquivoException |
+                         ModoPontuacaoInvalidoException |
+                         TipoRodadaInvalidoException ex) {
                     mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível reiniciar!", ex.getMessage(), "/icons/erro(falta).png");
                 }
             } else if (resposta == botaoNao) {
@@ -398,6 +458,9 @@ public class GameController {
         alerta.setTitle(titulo);
         alerta.setHeaderText(header);
         alerta.setContentText(msg);
+        Stage owner = (Stage) tabPane.getScene().getWindow();
+        alerta.initOwner(owner);
+        alerta.initModality(Modality.WINDOW_MODAL);
         alerta.showAndWait();
     }
 
@@ -419,6 +482,9 @@ public class GameController {
         alerta.setTitle(titulo);
         alerta.setHeaderText(header);
         alerta.setContentText(msg);
+        Stage owner = (Stage) tabPane.getScene().getWindow();
+        alerta.initOwner(owner);
+        alerta.initModality(Modality.WINDOW_MODAL);
         alerta.showAndWait();
     }
 

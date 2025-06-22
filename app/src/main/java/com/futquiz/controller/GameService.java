@@ -1,6 +1,6 @@
 package com.futquiz.controller;
 
-import com.futquiz.auxiliares.leitorDeCSV;
+import com.futquiz.auxiliares.GerenciadorArquivos;
 import com.futquiz.exceptions.ModoPontuacaoInvalidoException;
 import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
 import com.futquiz.exceptions.TipoRodadaInvalidoException;
@@ -24,6 +24,18 @@ public class GameService {
     private int ultimaMeta;
     private String ultimoModo;
     private String ultimoTipoRodada;
+    private static GameService instancia;
+
+
+    private GameService() {
+    }
+
+    public static GameService getInstance() {
+        if (instancia == null) {
+            instancia = new GameService();
+        }
+        return instancia;
+    }
 
 
     /**
@@ -47,7 +59,7 @@ public class GameService {
             ModoPontuacaoInvalidoException,
             TipoRodadaInvalidoException {
 
-        quarterbacks = leitorDeCSV.carregarDados("/dados.csv");
+        quarterbacks = GerenciadorArquivos.carregarDados("/dados.csv");
         this.historico.clear();
         rodada = RodadaFactory.criarRodada(meta, modo, exibeEstatisticas);
 
@@ -93,6 +105,7 @@ public class GameService {
         rodada.getMultiplicadores().remove(multiplicador);
 
         if (jogoAcabou()) {
+            salvarResumoRodada();
             jogoTerminado = true;
         }
 
@@ -170,6 +183,32 @@ public class GameService {
     public List<Integer> obterMetasDisponiveis() {
         return MultiplicadorFactory.getMetasDisponiveis();
     }
+
+
+    /**
+     * Chama o metodo que grava o resumo da rodada no arquivo CSV
+     */
+    public void salvarResumoRodada() {
+        List<String> listaDetalhes = new ArrayList<>();
+        for (Jogada jogada : historico) {
+            listaDetalhes.add(jogada.getMultiplicador().getValor() + "x - "
+                    + jogada.getQuarterback().getNome()
+                    + " (" + jogada.getPontosGerados() + ")");
+        }
+
+
+        int pontos = rodada.getPontosAcumulados();
+
+
+        GerenciadorArquivos.gravarResumo(
+                this.ultimoTipoRodada,
+                this.ultimoModo,
+                this.ultimaMeta,
+                pontos,
+                listaDetalhes
+        );
+    }
+
 }
 
 
