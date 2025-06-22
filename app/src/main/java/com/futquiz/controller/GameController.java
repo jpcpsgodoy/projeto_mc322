@@ -72,28 +72,10 @@ public class GameController {
     @FXML
     public void initialize() {
         tabPane.setVisible(false);
-        mostrarMensagemBoasVindas();
         mostrarTelaConfiguracao();
         tabPane.setVisible(true);
     }
 
-    /**
-     * Exibe uma mensagem de boas vindas ao jogador
-     */
-    private void mostrarMensagemBoasVindas() {
-        String Title = "Boas vindas ao FutQuiz!";
-        String header = "Teste seu conhecimento sobre Quarterbacks!";
-        String msg = "Neste jogo, seu objetivo é atingir uma meta de touchdowns escolhendo Quarterbacks sorteados e aplicando multiplicadores estratégicos.\n" +
-                "A cada jogador sorteado, você analisa suas estatísticas e decide como usá-lo para se aproximar da meta de pontos.\n\n" +
-                "Modos de Pontuação:\n" +
-                "• TD Passe: touchdowns de passe do QB\n" +
-                "• TD Total: soma touchdowns de passe + corridos\n\n" +
-                "Tipos de Rodada:\n" +
-                "• Rodada Normal: mostra as estatísticas\n" +
-                "• Rodada Desafio: oculta estatísticas para desafiar seu conhecimento";
-
-        mostrarAlerta(Alert.AlertType.INFORMATION, Title, header, msg, "/icons/reiniciar.png", 100, 100);
-    }
 
     /**
      * Exibe a tela de configuração do jogo com as opções de meta, modo de pontuação e tipo de rodada

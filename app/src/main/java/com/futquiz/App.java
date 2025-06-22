@@ -28,8 +28,8 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/quarterback.png")));
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/GameWindow.fxml"));
-        Scene scene = new Scene(root, 655, 500);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/HomeWindow.fxml"));
+        Scene scene = new Scene(root, 500, 400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("FutQuiz");
         primaryStage.setResizable(false);
