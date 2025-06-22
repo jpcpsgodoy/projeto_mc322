@@ -318,7 +318,16 @@ public class GameController {
      * Retorna para a tela inicial do jogo.
      */
     private void voltarParaTelaInicial() {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+            Scene scene = new Scene(loader.load(), 500, 400);
+            Stage stage = (Stage) tabPane.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("FutQuiz");
+            stage.show();
+        } catch (IOException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível retornar à tela inicial.", e.getMessage(), "/icons/erro(falta).png");
+        }
     }
 
 
