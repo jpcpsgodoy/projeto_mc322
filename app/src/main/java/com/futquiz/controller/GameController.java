@@ -130,24 +130,29 @@ public class GameController {
         int meta = metaBox.getValue();
         String modoSelecionado = modoBox.getValue();
         String tipoRodadaSelecionado = tipoBox.getValue();
-
-
+     
         try {
-            inicializaMolduraQB();
             service.iniciarJogo(meta, modoSelecionado, tipoRodadaSelecionado);
-            labelMeta.setText("Meta: " + meta);
-            construirMultiplicadores();
-            limparExibicaoQB();
-            atualizarProgresso(meta, 0);
-            tabPane.setVisible(true);
+            configurarTelaRodada();
             dialog.close();
         } catch (Exception ex) {
             String header = "Você cometeu uma falta!";
             mostrarAlerta(Alert.AlertType.ERROR, "Erro", header, ex.getMessage(), "/icons/erro(falta).png");
         }
-    }
+     }
 
-    /**
+    private void configurarTelaRodada() {
+        inicializaMolduraQB();
+        int metaAtual = service.getRodada().getMeta();
+        labelMeta.setText("Meta: " + metaAtual);
+        construirMultiplicadores();
+        limparExibicaoQB();
+        atualizarProgresso(metaAtual, 0);
+        tabPane.setVisible(true);
+     }
+     
+     
+     /**
      * Constrói os botões de multiplicadores e os exibe na tela ao lado de seu fator
      */
     private void construirMultiplicadores() {
@@ -288,12 +293,40 @@ public class GameController {
         }
     }
 
-
-
+    /**
+     * Exibe a tela de confirmação para reiniciar o jogo, perguntando se o jogador deseja utilizar as mesmas configurações.
+     * Se o jogador escolher "Sim", reinicia o jogo com as mesmas configurações.
+     * Se escolher "Não", exibe a tela de configuração novamente.
+     * Se escolher "Cancelar", não faz nada e retorna à tela atual.
+     * 
+     */
     @FXML
     private void acaoBotaoReiniciar() {
-
-    }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Reiniciar Jogo");
+        alert.setHeaderText("Confirmação de Reinício");
+        alert.setContentText("Você está prestes a reiniciar o jogo. Você deseja utilizar as mesmas configurações?");
+     
+        ButtonType botaoSim = new ButtonType("Sim");
+        ButtonType botaoNao = new ButtonType("Não");
+        ButtonType botaoCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+     
+        alert.getButtonTypes().setAll(botaoSim, botaoNao, botaoCancelar);
+     
+        alert.showAndWait().ifPresent(resposta -> {
+            if (resposta == botaoSim) {
+                try {
+                    service.reiniciarJogoMesmasConfigs();
+                    configurarTelaRodada();
+                } catch (Exception ex) {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível reiniciar!", ex.getMessage(), "/icons/erro(falta).png");
+                }
+            } else if (resposta == botaoNao) {
+                mostrarTelaConfiguracao();
+            }
+        });
+     }
+     
 
     /**
      * Exibe a tela de ajuda com dicas de jogo.
