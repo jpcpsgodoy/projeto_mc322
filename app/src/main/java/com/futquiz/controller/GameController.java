@@ -342,6 +342,11 @@ public class GameController {
         }
     }
 
+    /**
+     *  Exibe a tela de reinício do jogo, perguntando se o jogador deseja iniciar um novo jogo ou voltar para a tela inicial.
+     *  Se o jogador escolher "Sim", exibe a tela de configuração novamente.
+     *  Se escolher "Não", retorna à tela inicial.
+     */
     @FXML
     private void mostrarTelaNovoJogo() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

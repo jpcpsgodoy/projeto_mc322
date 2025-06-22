@@ -26,7 +26,12 @@ public class GameService {
     private String ultimoTipoRodada;
     private static GameService instancia;
 
-
+    /**
+     * Construtor para implementar o padrão Singleton
+     * Garante que apenas uma instância do GameService seja criada
+     * 
+     * @return Instância única do GameService
+     */
     private GameService() {
     }
 
@@ -171,6 +176,12 @@ public class GameService {
         return rodada;
     }
 
+    /**
+     * Retorna uma mensagem de resultado da rodada, informando se o jogador
+     * superou a meta ou se faltaram pontos para alcançá-la.
+     * 
+     * @return Mensagem de resultado da rodada
+     */
     public String getMensagemResultado() {
         if (jogadorVenceu()) {
             return "Você superou a meta por " + (rodada.getPontosAcumulados() - rodada.getMeta()) + " pontos.";
@@ -180,6 +191,11 @@ public class GameService {
         return "";
     }
 
+    /**
+     * Retorna as metas disponíveis para o jogo
+     * 
+     * @return  Lista de metas disponíveis
+     */
     public List<Integer> obterMetasDisponiveis() {
         return MultiplicadorFactory.getMetasDisponiveis();
     }
