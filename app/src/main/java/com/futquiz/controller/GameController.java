@@ -4,6 +4,7 @@ import com.futquiz.model.Multiplicador;
 import com.futquiz.model.Quarterback;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -246,6 +248,8 @@ public class GameController {
                 String header = "Que pena, vocé perdeu!";
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Derrota.", header, mensagem, "/icons/derrota.png");
             }
+            // mostrar tela para reiniciar ou voltar à tela de configuração
+            mostrarTelaNovoJogo();
         }
 
         limparExibicaoQB();
@@ -284,8 +288,51 @@ public class GameController {
         }
     }
 
+    @FXML
+    private void mostrarTelaNovoJogo() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Novo Jogo");
+        alert.setHeaderText("Iniciar Novo Jogo");
+        alert.setContentText("Deseja iniciar um novo jogo?");
+        ImageView imagem = criarImageView("/icons/reiniciar.png", 40, 40);
+        alert.getDialogPane().setGraphic(imagem);
+
+        Stage stage = (Stage) tabPane.getScene().getWindow();
+        alert.initOwner(stage);
+    
+        ButtonType botaoSim = new ButtonType("Sim");
+        ButtonType botaoNao = new ButtonType("Não");
+
+        alert.getButtonTypes().setAll(botaoSim, botaoNao);
+
+        alert.showAndWait().ifPresent(resposta -> {
+            if (resposta == botaoSim) {
+                mostrarTelaConfiguracao();
+            } else if (resposta == botaoNao) {
+                voltarParaTelaInicial();
+            }
+        });
+    }
+
     /**
-     * Exibe a tela de confirmação para reiniciar o jogo, perguntando se o jogador deseja utilizar as mesmas configurações.
+     * Retorna para a tela inicial do jogo.
+     */
+    private void voltarParaTelaInicial() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+            Scene scene = new Scene(loader.load(), 500, 400);
+            Stage stage = (Stage) tabPane.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("FutQuiz");
+            stage.show();
+        } catch (IOException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível retornar à tela inicial.", e.getMessage(), "/icons/erro(falta).png");
+        }
+    }
+
+
+    /**
+     * Exibe a tela de reinício do jogo, perguntando se o jogador deseja reiniciar com as mesmas configurações ou mudar as configurações.
      * Se o jogador escolher "Sim", reinicia o jogo com as mesmas configurações.
      * Se escolher "Não", exibe a tela de configuração novamente.
      * Se escolher "Cancelar", não faz nada e retorna à tela atual.
@@ -295,12 +342,12 @@ public class GameController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Reiniciar Jogo");
         alert.setHeaderText("Confirmação de Reinício");
-        alert.setContentText("Você está prestes a reiniciar o jogo. Você deseja utilizar as mesmas configurações desta rodada?");
-        ImageView imagemReiniciar = criarImageView("/icons/reiniciar.png", 40, 40);
-        alert.getDialogPane().setGraphic(imagemReiniciar);
+        alert.setContentText("Você deseja reiniciar a rodada atual com as mesmas configurações?");
+        ImageView imagem = criarImageView("/icons/reiniciar.png", 40, 40);
+        alert.getDialogPane().setGraphic(imagem);
 
         ButtonType botaoSim = new ButtonType("Sim");
-        ButtonType botaoNao = new ButtonType("Não");
+        ButtonType botaoNao = new ButtonType("Mudar Configurações");
         ButtonType botaoCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         alert.getButtonTypes().setAll(botaoSim, botaoNao, botaoCancelar);
