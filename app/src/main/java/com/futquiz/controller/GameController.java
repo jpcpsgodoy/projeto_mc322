@@ -295,6 +295,9 @@ public class GameController {
 
     }
 
+    /**
+     * Exibe a tela de ajuda com dicas de jogo.
+     */
     @FXML
     private void acaoBotaoAjuda() {
         mostrarAlerta(Alert.AlertType.INFORMATION, "Dicas de Jogo",  "Estratégia para a Rodada",
