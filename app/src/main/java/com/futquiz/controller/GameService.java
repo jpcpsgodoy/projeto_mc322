@@ -31,16 +31,16 @@ public class GameService {
      * quarterbacks
      * a partir de um arquivo CSV.
      *
-     * @param meta              Meta de touchdowns a ser alcançada no jogo
-     * @param modo              Modo de pontuação a ser utilizado no jogo (TD_PASSE
-     *                          ou TD_TOTAL)
+     * @param meta Meta de touchdowns a ser alcançada no jogo
+     * @param modo Modo de pontuação a ser utilizado no jogo (TD_PASSE
+     * ou TD_TOTAL)
      * @param exibeEstatisticas Indica se as estatísticas devem ser exibidas durante
-     *                          o jogo
+     * o jogo
      * @throws NaoFoiPossivelCarregarArquivoException se ocorrer um erro ao carregar
-     *                                                o arquivo CSV
-     * @throws ModoPontuacaoInvalidoException         se o modo de pontuação fornecido for
-     *                                                inválido
-     * @throws TipoRodadaInvalidoException            se o tipo de rodada fornecido for inválido
+     * o arquivo CSV
+     * @throws ModoPontuacaoInvalidoException se o modo de pontuação fornecido for
+     * inválido
+     * @throws TipoRodadaInvalidoException se o tipo de rodada fornecido for inválido
      */
     public void iniciarJogo(int meta, String modo, String exibeEstatisticas)
             throws NaoFoiPossivelCarregarArquivoException,
@@ -82,7 +82,7 @@ public class GameService {
      * Aplica um multiplicador à pontuação do quarterback
      * e atualiza a pontuação acumulada da rodada.
      *
-     * @param qb            Quarterback cuja pontuação será multiplicada
+     * @param qb Quarterback cuja pontuação será multiplicada
      * @param multiplicador Multiplicador a ser aplicado à pontuação do quarterback
      * @return A pontuação resultante após a aplicação do multiplicador
      */
@@ -93,6 +93,7 @@ public class GameService {
         rodada.getMultiplicadores().remove(multiplicador);
 
         if (jogoAcabou()) {
+            salvarResumoRodada();
             jogoTerminado = true;
         }
 
@@ -158,6 +159,11 @@ public class GameService {
         return rodada;
     }
 
+    /**
+     * Retorna a mensagem de resultado da rodada
+     *
+     * @return A mensagem de resultado da rodada
+     */
     public String getMensagemResultado() {
         if (jogadorVenceu()) {
             return "Você superou a meta por " + (rodada.getPontosAcumulados() - rodada.getMeta()) + " pontos.";
@@ -167,9 +173,47 @@ public class GameService {
         return "";
     }
 
+    /**
+     * Retorna a lista de metas disponíveis
+     *
+     * @return Lista de metas disponíveis
+     */
     public List<Integer> obterMetasDisponiveis() {
         return MultiplicadorFactory.getMetasDisponiveis();
     }
+
+    /**
+     * Faz um resumo detalhado dos multiplicadores usados na rodada
+     * @return O resumo detalhado
+     */
+    public String getDetalheMultiplicadores() {
+        StringBuilder sb = new StringBuilder();
+        for (Jogada jogada : historico) {
+            sb.append(jogada.getMultiplicador().getValor())
+                    .append("x - ")
+                    .append(jogada.getQuarterback().getNome())
+                    .append(" (")
+                    .append(jogada.getPontosGerados())
+                    .append(")")
+                    .append("\n");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Chama o metodo que grava o resumo da rodada no arquivo CSV
+     */
+    public void salvarResumoRodada() {
+        String detalhes = getDetalheMultiplicadores();
+        int pontos = rodada.getPontosAcumulados();
+
+        leitorDeCSV.gravarResumo(
+                this.ultimoTipoRodada,
+                this.ultimoModo,
+                this.ultimaMeta,
+                pontos,
+                detalhes
+        );
+    }
+
 }
-
-
