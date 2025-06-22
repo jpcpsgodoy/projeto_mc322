@@ -42,6 +42,8 @@ public class GameController {
     @FXML
     private ImageView imagemQBSorteado;
     @FXML
+    private ImageView molduraQB;
+    @FXML
     private VBox vboxMultiplicadores;
     @FXML
     private Button botaoSortear;
@@ -129,7 +131,9 @@ public class GameController {
         String modoSelecionado = modoBox.getValue();
         String tipoRodadaSelecionado = tipoBox.getValue();
 
+
         try {
+            inicializaMolduraQB();
             service.iniciarJogo(meta, modoSelecionado, tipoRodadaSelecionado);
             labelMeta.setText("Meta: " + meta);
             construirMultiplicadores();
@@ -215,6 +219,13 @@ public class GameController {
     }
 
     /**
+     * Inicializa a moldura do quarterback
+     */
+    private void inicializaMolduraQB() {
+        molduraQB.setImage(new Image(getClass().getResourceAsStream("/icons/moldura_qb.png")));
+    }
+
+    /**
      * Aplica um multiplicador ao quarterback
      *
      * @param botao Botão de aplicação
@@ -297,7 +308,19 @@ public class GameController {
 
     @FXML
     private void acaoBotaoAjuda() {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Dicas de Jogo");
+        alerta.setHeaderText("Estratégia para a Rodada");
+        alerta.setContentText("Você tem 8 quarterbacks e precisa superar a meta de pontos que definiu no início da rodada.\n\n" +
+        "Cada jogador possui uma estatística de touchdowns, que pode ser total ou passados, dependendo da rodada que você escolheu.\n\n" +
 
+        "Para cada jogador sorteado, você aplicará um multiplicador: quanto maior o multiplicador, maior o impacto no seu total de pontos.\n\n" +
+
+        "Dica: Guarde os multiplicadores mais altos para os jogadores com melhores estatísticas. Essa estratégia é fundamental para bater a meta!\n\n" +
+
+        "No modo Normal, você verá a estatística do jogador antes de aplicar o multiplicador.\n" +
+        "No modo Desafiador, você terá que confiar no seu conhecimento - a estatística só será revelada depois da escolha!");
+        alerta.showAndWait();
     }
 
     private void mostrarAlertaVitoria() {
