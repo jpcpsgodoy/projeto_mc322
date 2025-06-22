@@ -308,7 +308,19 @@ public class GameController {
 
     @FXML
     private void acaoBotaoAjuda() {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Dicas de Jogo");
+        alerta.setHeaderText("Estratégia para a Rodada");
+        alerta.setContentText("Você tem 8 quarterbacks e precisa superar a meta de pontos que definiu no início da rodada.\n\n" +
+        "Cada jogador possui uma estatística de touchdowns, que pode ser total ou passados, dependendo da rodada que você escolheu.\n\n" +
 
+        "Para cada jogador sorteado, você aplicará um multiplicador: quanto maior o multiplicador, maior o impacto no seu total de pontos.\n\n" +
+
+        "Dica: Guarde os multiplicadores mais altos para os jogadores com melhores estatísticas. Essa estratégia é fundamental para bater a meta!\n\n" +
+
+        "No modo Normal, você verá a estatística do jogador antes de aplicar o multiplicador.\n" +
+        "No modo Desafiador, você terá que confiar no seu conhecimento - a estatística só será revelada depois da escolha!");
+        alerta.showAndWait();
     }
 
     private void mostrarAlertaVitoria() {
