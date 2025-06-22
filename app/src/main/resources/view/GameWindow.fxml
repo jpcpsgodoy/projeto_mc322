@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
@@ -14,8 +15,11 @@
                         <VBox fx:id="vboxDireita" alignment="CENTER" layoutX="379.0" layoutY="100.0" prefWidth="250"
                               spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="25.0"
                               AnchorPane.topAnchor="100.0">
-                            <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
-                                       preserveRatio="true"/>
+                            <StackPane>
+                                <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" translateY="5"/>
+                                <ImageView fx:id="molduraQB" fitHeight="200.0" fitWidth="200.0" preserveRatio="true"/>
+                            </StackPane>
+
                             <Label fx:id="labelNomeJogador" style="-fx-font-weight: bold;" text="Nome do Jogador:"/>
                             <Label fx:id="labelNomeQbSorteado" text=""/>
                             <Button fx:id="botaoSortear" mnemonicParsing="false" onAction="#acaoBotaoSortear"
