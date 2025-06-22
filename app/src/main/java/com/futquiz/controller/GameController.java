@@ -42,6 +42,8 @@ public class GameController {
     @FXML
     private ImageView imagemQBSorteado;
     @FXML
+    private ImageView molduraQB;
+    @FXML
     private VBox vboxMultiplicadores;
     @FXML
     private Button botaoSortear;
@@ -129,7 +131,9 @@ public class GameController {
         String modoSelecionado = modoBox.getValue();
         String tipoRodadaSelecionado = tipoBox.getValue();
 
+
         try {
+            inicializaMolduraQB();
             service.iniciarJogo(meta, modoSelecionado, tipoRodadaSelecionado);
             labelMeta.setText("Meta: " + meta);
             construirMultiplicadores();
@@ -212,6 +216,13 @@ public class GameController {
         qbAtual = null;
         atualizarEstadoMultiplicadores(false);
         botaoSortear.setDisable(false);
+    }
+
+    /**
+     * Inicializa a moldura do quarterback
+     */
+    private void inicializaMolduraQB() {
+        molduraQB.setImage(new Image(getClass().getResourceAsStream("/icons/moldura_qb.png")));
     }
 
     /**
