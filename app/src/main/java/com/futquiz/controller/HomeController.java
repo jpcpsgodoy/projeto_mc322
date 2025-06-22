@@ -17,6 +17,9 @@ public class HomeController {
     private ImageView logo;
 
     @FXML
+    private ImageView fundo;
+
+    @FXML
     private Button botaoContinuar;
 
     @FXML
@@ -27,15 +30,20 @@ public class HomeController {
      */
     @FXML
     private void initialize() {
-        inicializarLogo();
+        inicializarImagens(logo, "/icons/logo.png");
+        inicializarImagens(fundo, "/imagens/fundo.png");
     }
 
     /**
-     * Inicializa o logo do jogo.
+     * Inicializa as imagens do jogo.
+     * 
+     *  @param imagem A ImageView onde a imagem será exibida.
+     *  @param caminho O caminho do recurso da imagem.
      */
-    private void inicializarLogo() {
-        logo.setImage(new Image(getClass().getResourceAsStream("/icons/logo.png")));
+    private void inicializarImagens(ImageView imagem, String caminho) {
+        imagem.setImage(new Image(getClass().getResourceAsStream(caminho)));
     }
+
     /**
      * Inicializa o jogo. 
      */
