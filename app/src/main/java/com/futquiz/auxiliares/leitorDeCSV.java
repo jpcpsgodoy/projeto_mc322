@@ -1,7 +1,6 @@
 package com.futquiz.auxiliares;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import com.futquiz.model.*;
@@ -26,7 +25,7 @@ public class leitorDeCSV {
      * quarterbacks
      * 
      * @param caminho Caminho do arquivo CSV a ser lido. O caminho deve ser relativo
-     *                ao classpath.
+     * ao classpath.
      * @return Lista de objetos Quarterback carregados a partir do arquivo CSV.
      */
     public static List<Quarterback> carregarDados(String caminho) throws NaoFoiPossivelCarregarArquivoException {
@@ -54,4 +53,30 @@ public class leitorDeCSV {
 
         return quarterbacks;
     }
+
+    /**
+     * Grava o resumo da rodada em um arquivo CSV.
+     *
+     * @param tipoRodada O tipo de rodada (Normal ou Desafio).
+     * @param tipoPontuacao O tipo de pontuação (TD_PASSE ou TD_TOTAL).
+     * @param meta A meta de touchdowns para alcançar.
+     * @param pontos Os pontos acumulados na rodada.
+     * @param detalhes Disposição dos qbs e multiplicadores.
+     */
+    public static void gravarResumo(String tipoRodada, String tipoPontuacao, int meta, int pontos, String detalhes) {
+        File arquivo = new File("historico_jogos.csv");
+        try (FileWriter fw = new FileWriter(arquivo, true);
+             PrintWriter pw = new PrintWriter(fw)) {
+
+            if (arquivo.length() == 0) {
+                pw.println("\"Tipo de Rodada\",\"Tipo de Pontuacao\",\"Meta\",\"Pontos\",\"Detalhes\"");
+            }
+
+            pw.printf("\"%s\",\"%s\",%d,%d,\"%s\"%n", tipoRodada, tipoPontuacao, meta, pontos, detalhes);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
