@@ -17,37 +17,54 @@ import java.util.List;
  * @author Gustavo Henrique
  */
 public class GameService {
+    private final List<Jogada> historico = new ArrayList<>();
     private Rodada rodada;
     private List<Quarterback> quarterbacks;
-    private List<Jogada> historico = new ArrayList<>();
     private boolean jogoTerminado = false;
+    private int ultimaMeta;
+    private String ultimoModo;
+    private String ultimoTipoRodada;
+
 
     /**
      * Inicia o jogo com os parâmetros fornecidos, carregando os dados dos
      * quarterbacks
      * a partir de um arquivo CSV.
      *
-     * @param meta Meta de touchdowns a ser alcançada no jogo
-     * @param modo Modo de pontuação a ser utilizado no jogo (TD_PASSE
-     * ou TD_TOTAL)
+     * @param meta              Meta de touchdowns a ser alcançada no jogo
+     * @param modo              Modo de pontuação a ser utilizado no jogo (TD_PASSE
+     *                          ou TD_TOTAL)
      * @param exibeEstatisticas Indica se as estatísticas devem ser exibidas durante
-     * o jogo
+     *                          o jogo
      * @throws NaoFoiPossivelCarregarArquivoException se ocorrer um erro ao carregar
-     * o arquivo CSV
-     * @throws ModoPontuacaoInvalidoException se o modo de pontuação fornecido for
-     * inválido
-     * @throws TipoRodadaInvalidoException se o tipo de rodada fornecido for inválido 
+     *                                                o arquivo CSV
+     * @throws ModoPontuacaoInvalidoException         se o modo de pontuação fornecido for
+     *                                                inválido
+     * @throws TipoRodadaInvalidoException            se o tipo de rodada fornecido for inválido
      */
     public void iniciarJogo(int meta, String modo, String exibeEstatisticas)
             throws NaoFoiPossivelCarregarArquivoException,
-                   ModoPontuacaoInvalidoException,
-                   TipoRodadaInvalidoException {
-        quarterbacks = leitorDeCSV.carregarDados("/dados.csv");
+            ModoPontuacaoInvalidoException,
+            TipoRodadaInvalidoException {
 
+        quarterbacks = leitorDeCSV.carregarDados("/dados.csv");
+        this.historico.clear();
         rodada = RodadaFactory.criarRodada(meta, modo, exibeEstatisticas);
 
         rodada.iniciarRodada();
+
+        ultimaMeta = meta;
+        ultimoModo = modo;
+        ultimoTipoRodada = exibeEstatisticas;
     }
+
+    /**
+     * Reinicia o jogo, limpando rodada e histórico
+     */
+    public void reiniciarJogoMesmasConfigs() throws NaoFoiPossivelCarregarArquivoException, ModoPontuacaoInvalidoException, TipoRodadaInvalidoException {
+        iniciarJogo(this.ultimaMeta, this.ultimoModo, this.ultimoTipoRodada);
+    }
+
 
     /**
      * Sorteia um quarterback da lista de quarterbacks disponíveis e o registra
@@ -65,7 +82,7 @@ public class GameService {
      * Aplica um multiplicador à pontuação do quarterback
      * e atualiza a pontuação acumulada da rodada.
      *
-     * @param qb Quarterback cuja pontuação será multiplicada
+     * @param qb            Quarterback cuja pontuação será multiplicada
      * @param multiplicador Multiplicador a ser aplicado à pontuação do quarterback
      * @return A pontuação resultante após a aplicação do multiplicador
      */
@@ -73,17 +90,18 @@ public class GameService {
         int pontos = multiplicador.aplicar(rodada.getPontuacaoQB(qb));
         rodada.adicionarPontos(pontos);
         historico.add(new Jogada(qb, multiplicador, pontos));
+        rodada.getMultiplicadores().remove(multiplicador);
 
         if (jogoAcabou()) {
             jogoTerminado = true;
         }
-
 
         return pontos;
     }
 
     /**
      * Verifica se o jogador venceu a rodada
+     *
      * @return true se o jogador venceu, false caso contrário
      */
     public boolean jogadorVenceu() {
@@ -93,6 +111,7 @@ public class GameService {
 
     /**
      * Verifica se o jogador perdeu a rodada
+     *
      * @return true se o jogador perdeu, false caso contrário
      */
     public boolean jogadorPerdeu() {
@@ -102,15 +121,17 @@ public class GameService {
 
     /**
      * Verifica se o jogo acabou
+     *
      * @return true se o jogo acabou, false caso contrário
      */
-    public boolean jogoAcabou(){
+    public boolean jogoAcabou() {
         return rodada.jogadorPerdeu() || rodada.jogadorVenceu();
     }
 
 
     /**
      * Confere se a meta de touchdowns foi alcançada
+     *
      * @return true se a meta foi alcançada, false caso não
      */
     public boolean metaAtingida() {
@@ -119,6 +140,7 @@ public class GameService {
 
     /**
      * Confere se as estatísticas devem ser exibidas
+     *
      * @return true se as estatísticas devem ser exibidas, false caso não
      */
     public boolean deveExibirEstatistica() {
@@ -127,6 +149,7 @@ public class GameService {
 
     /**
      * Retorna a lista de multiplicadores disponíveis
+     *
      * @return Lista de multiplicadores disponíveis
      */
     public List<Multiplicador> getMultiplicadoresDisponiveis() {
@@ -135,6 +158,7 @@ public class GameService {
 
     /**
      * Retorna a pontuação acumulada na rodada
+     *
      * @return Pontos acumulados na rodada
      */
     public int getPontosAcumulados() {
@@ -149,4 +173,15 @@ public class GameService {
     public Rodada getRodada() {
         return rodada;
     }
+
+    public String getMensagemResultado() {
+        if (jogadorVenceu()) {
+            return "Você superou a meta por " + (rodada.getPontosAcumulados() - rodada.getMeta()) + " pontos.";
+        } else if (jogadorPerdeu()) {
+            return "Faltaram " + (rodada.getMeta() - rodada.getPontosAcumulados()) + " pontos para superar a meta.";
+        }
+        return "";
+    }
 }
+
+
