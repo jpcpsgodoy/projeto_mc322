@@ -56,7 +56,7 @@ public class GameController {
     private Label labelProgresso; //
 
     private Quarterback qbAtual;
-    private List<Multiplicador> multiplicadoresUsados;
+
 
     /**
      * Inicializa o jogo
@@ -138,7 +138,8 @@ public class GameController {
             tabPane.setVisible(true);
             dialog.close();
         } catch (Exception ex) {
-            mostrarAlertaErro(ex.getMessage(), "Erro de Carregamento");
+            String header = "Você cometeu uma falta!";
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro", header, ex.getMessage(), "/images/erro(falta).png");
         }
     }
 
@@ -230,16 +231,17 @@ public class GameController {
         atualizarProgresso(service.getRodada().getMeta(), service.getRodada().getPontosAcumulados());
 
         if (service.jogoAcabou()) {
+            String mensagem = service.getMensagemResultado();
             if (service.jogadorVenceu()) {
-                mostrarAlertaVitoria();
+                String header = "Parabéns, você venceu!";
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Vitória!", header, mensagem, "/icons/vitoria.png");
             } else {
-                mostrarAlertaDerrota();
+                String header = "Que pena, vocé perdeu!";
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Derrota.", header, mensagem, "/icons/derrota.png");
             }
         }
 
         limparExibicaoQB();
-
-
     }
 
     /**
@@ -275,19 +277,6 @@ public class GameController {
         }
     }
 
-    /**
-     * Exibe um alerta de erro
-     *
-     * @param msg Mensagem de erro
-     * @param titulo Título do alerta
-     */
-    private void mostrarAlertaErro(String msg, String titulo) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
-    }
 
 
     @FXML
@@ -300,18 +289,25 @@ public class GameController {
 
     }
 
-    private void mostrarAlertaVitoria() {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Vitória!");
-        alerta.setContentText("Você atingiu a meta de touchdowns!");
-        alerta.showAndWait();
-    }
-
-
-    private void mostrarAlertaDerrota() {
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Derrota");
-        alerta.setContentText("Os multiplicadores acabaram e você não atingiu a meta.");
+    /**
+     * Exibe um alerta customizado com imagem, título e mensagem.
+     *
+     * @param tipo Tipo do alerta (INFORMATION, ERROR, etc)
+     * @param titulo Título da janela
+     * @param header Texto do cabeçalho
+     * @param msg Texto do conteúdo
+     * @param caminhoImagem Caminho da imagem para exibir
+     */
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String header, String msg, String caminhoImagem) {
+        Alert alerta = new Alert(tipo);
+        Image imagem = new Image(getClass().getResourceAsStream(caminhoImagem));
+        ImageView imageView = new ImageView(imagem);
+        imageView.setFitHeight(100);
+        imageView.setFitWidth(100);
+        alerta.getDialogPane().setGraphic(imageView);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(header);
+        alerta.setContentText(msg);
         alerta.showAndWait();
     }
 }
