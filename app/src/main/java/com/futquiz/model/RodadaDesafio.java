@@ -28,7 +28,7 @@ public class RodadaDesafio extends Rodada {
 
     @Override
     public Quarterback sortearQuarterback(List<Quarterback> quarterbacks) {
-        List<Quarterback> top50 = quarterbacks.subList(0, Math.min(50, quarterbacks.size()));
+        List<Quarterback> top50 = quarterbacks.subList(4, Math.min(50, quarterbacks.size()));
         Random rand = new Random();
         Quarterback sorteado;
         do {
