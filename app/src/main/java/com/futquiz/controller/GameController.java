@@ -56,6 +56,8 @@ public class GameController {
     @FXML
     private ImageView molduraQB;
     @FXML
+    private ImageView fundoMolduraQB;
+    @FXML
     private VBox vboxMultiplicadores;
     @FXML
     private Button botaoSortear;
@@ -191,7 +193,8 @@ public class GameController {
      * Configura a tela da rodada
      */
     private void configurarTelaRodada() {
-        inicializaMolduraQB();
+        molduraQB.setImage(criarImageView("/icons/moldura_qb.png", 250.0, 200.0).getImage());
+        fundoMolduraQB.setImage(criarImageView("/icons/fundo_moldura.png", 250.0, 200.0).getImage());
         int metaAtual = service.getRodada().getMeta();
         labelMeta.setText("Meta: " + metaAtual);
         construirMultiplicadores();
@@ -256,7 +259,7 @@ public class GameController {
         }
 
         labelNomeQbSorteado.setText(textoQb);
-        imagemQBSorteado.setImage(new Image(getClass().getResourceAsStream("/imagens/" + qbAtual.getId() + ".png")));
+        imagemQBSorteado.setImage(criarImageView("/imagens/" + qbAtual.getId() + ".png", 150.0, 200.0).getImage());
         atualizarEstadoMultiplicadores(true);
         botaoSortear.setDisable(true);
     }
@@ -265,18 +268,11 @@ public class GameController {
      * Limpa a exibição do quarterback após a aplicação de um multiplicador e habilita o botão de sortear
      */
     private void limparExibicaoQB() {
-        imagemQBSorteado.setImage(new Image(getClass().getResourceAsStream("/icons/qb_generico.png")));
+        imagemQBSorteado.setImage(criarImageView("/icons/qb_generico.png", 150.0, 200.0).getImage());
         labelNomeQbSorteado.setText(null);
         qbAtual = null;
         atualizarEstadoMultiplicadores(false);
         botaoSortear.setDisable(false);
-    }
-
-    /**
-     * Inicializa a moldura do quarterback
-     */
-    private void inicializaMolduraQB() {
-        molduraQB.setImage(new Image(getClass().getResourceAsStream("/icons/moldura_qb.png")));
     }
 
     /**

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futquiz.controller.GameController">
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.futquiz.controller.GameController">    
     <TabPane fx:id="tabPane" visible="true">
         <tabs>
             <Tab closable="false" text="Jogo Ativo">
@@ -13,8 +13,9 @@
                     <children>
                         <VBox fx:id="vboxDireita" alignment="CENTER" layoutX="379.0" layoutY="100.0" prefWidth="250" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="100.0">
                             <StackPane>
-                                <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" translateY="5" />
-                                <ImageView fx:id="molduraQB" fitHeight="200.0" fitWidth="200.0" preserveRatio="true" />
+                                <ImageView fx:id="fundoMolduraQB" preserveRatio="false"  fitHeight="240.0" fitWidth="250.0"  translateY="-7"/>
+                                <ImageView fx:id="imagemQBSorteado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" translateY="9" />
+                                <ImageView fx:id="molduraQB" fitHeight="245.0" fitWidth="200.0" preserveRatio="true" />
                             </StackPane>
 
                             <Label fx:id="labelNomeJogador" style="-fx-font-weight: bold;" text="Nome do Jogador:" />
