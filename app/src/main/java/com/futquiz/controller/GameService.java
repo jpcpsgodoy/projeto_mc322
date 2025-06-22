@@ -129,14 +129,6 @@ public class GameService {
     }
 
 
-    /**
-     * Confere se a meta de touchdowns foi alcançada
-     *
-     * @return true se a meta foi alcançada, false caso não
-     */
-    public boolean metaAtingida() {
-        return rodada.metaAlcancada();
-    }
 
     /**
      * Confere se as estatísticas devem ser exibidas
@@ -156,14 +148,6 @@ public class GameService {
         return rodada.getMultiplicadores();
     }
 
-    /**
-     * Retorna a pontuação acumulada na rodada
-     *
-     * @return Pontos acumulados na rodada
-     */
-    public int getPontosAcumulados() {
-        return rodada.getPontosAcumulados();
-    }
 
     /**
      * Retorna a rodada atual
@@ -181,6 +165,10 @@ public class GameService {
             return "Faltaram " + (rodada.getMeta() - rodada.getPontosAcumulados()) + " pontos para superar a meta.";
         }
         return "";
+    }
+
+    public List<Integer> obterMetasDisponiveis() {
+        return MultiplicadorFactory.getMetasDisponiveis();
     }
 }
 

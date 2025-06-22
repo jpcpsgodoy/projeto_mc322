@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class MultiplicadorFactory {
 
+    private static final List<Integer> metasDisponiveis = List.of(2000, 3500, 5000);
+
+    public static List<Integer> getMetasDisponiveis() {
+        return metasDisponiveis;
+    }
+
     /**
      * Cria uma lista de multiplicadores com base na meta fornecida
      * 
