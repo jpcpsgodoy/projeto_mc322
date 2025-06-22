@@ -342,12 +342,12 @@ public class GameController {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Reiniciar Jogo");
         alert.setHeaderText("Confirmação de Reinício");
-        alert.setContentText("Você está prestes a reiniciar o jogo. Você deseja utilizar as mesmas configurações desta rodada?");
-        ImageView imagemReiniciar = criarImageView("/icons/reiniciar.png", 40, 40);
-        alert.getDialogPane().setGraphic(imagemReiniciar);
+        alert.setContentText("Você deseja reiniciar a rodada atual com as mesmas configurações?");
+        ImageView imagem = criarImageView("/icons/reiniciar.png", 40, 40);
+        alert.getDialogPane().setGraphic(imagem);
 
         ButtonType botaoSim = new ButtonType("Sim");
-        ButtonType botaoNao = new ButtonType("Não");
+        ButtonType botaoNao = new ButtonType("Mudar Configurações");
         ButtonType botaoCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         alert.getButtonTypes().setAll(botaoSim, botaoNao, botaoCancelar);
