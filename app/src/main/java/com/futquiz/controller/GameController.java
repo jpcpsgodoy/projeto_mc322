@@ -130,24 +130,29 @@ public class GameController {
         int meta = metaBox.getValue();
         String modoSelecionado = modoBox.getValue();
         String tipoRodadaSelecionado = tipoBox.getValue();
-
-
+     
         try {
-            inicializaMolduraQB();
             service.iniciarJogo(meta, modoSelecionado, tipoRodadaSelecionado);
-            labelMeta.setText("Meta: " + meta);
-            construirMultiplicadores();
-            limparExibicaoQB();
-            atualizarProgresso(meta, 0);
-            tabPane.setVisible(true);
+            configurarTelaRodada();
             dialog.close();
         } catch (Exception ex) {
             String header = "Você cometeu uma falta!";
-            mostrarAlerta(Alert.AlertType.ERROR, "Erro", header, ex.getMessage(), "/images/erro(falta).png");
+            mostrarAlerta(Alert.AlertType.ERROR, "Erro", header, ex.getMessage(), "/icons/erro(falta).png");
         }
-    }
+     }
 
-    /**
+    private void configurarTelaRodada() {
+        inicializaMolduraQB();
+        int metaAtual = service.getRodada().getMeta();
+        labelMeta.setText("Meta: " + metaAtual);
+        construirMultiplicadores();
+        limparExibicaoQB();
+        atualizarProgresso(metaAtual, 0);
+        tabPane.setVisible(true);
+     }
+     
+     
+     /**
      * Constrói os botões de multiplicadores e os exibe na tela ao lado de seu fator
      */
     private void construirMultiplicadores() {
@@ -288,28 +293,54 @@ public class GameController {
         }
     }
 
-
-
+    /**
+     * Exibe a tela de confirmação para reiniciar o jogo, perguntando se o jogador deseja utilizar as mesmas configurações.
+     * Se o jogador escolher "Sim", reinicia o jogo com as mesmas configurações.
+     * Se escolher "Não", exibe a tela de configuração novamente.
+     * Se escolher "Cancelar", não faz nada e retorna à tela atual.
+     * 
+     */
     @FXML
     private void acaoBotaoReiniciar() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Reiniciar Jogo");
+        alert.setHeaderText("Confirmação de Reinício");
+        alert.setContentText("Você está prestes a reiniciar o jogo. Você deseja utilizar as mesmas configurações?");
+     
+        ButtonType botaoSim = new ButtonType("Sim");
+        ButtonType botaoNao = new ButtonType("Não");
+        ButtonType botaoCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+     
+        alert.getButtonTypes().setAll(botaoSim, botaoNao, botaoCancelar);
+     
+        alert.showAndWait().ifPresent(resposta -> {
+            if (resposta == botaoSim) {
+                try {
+                    service.reiniciarJogoMesmasConfigs();
+                    configurarTelaRodada();
+                } catch (Exception ex) {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível reiniciar!", ex.getMessage(), "/icons/erro(falta).png");
+                }
+            } else if (resposta == botaoNao) {
+                mostrarTelaConfiguracao();
+            }
+        });
+     }
+     
 
-    }
-
+    /**
+     * Exibe a tela de ajuda com dicas de jogo.
+     */
     @FXML
     private void acaoBotaoAjuda() {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Dicas de Jogo");
-        alerta.setHeaderText("Estratégia para a Rodada");
-        alerta.setContentText("Você tem 8 quarterbacks e precisa superar a meta de pontos que definiu no início da rodada.\n\n" +
-        "Cada jogador possui uma estatística de touchdowns, que pode ser total ou passados, dependendo da rodada que você escolheu.\n\n" +
-
-        "Para cada jogador sorteado, você aplicará um multiplicador: quanto maior o multiplicador, maior o impacto no seu total de pontos.\n\n" +
-
-        "Dica: Guarde os multiplicadores mais altos para os jogadores com melhores estatísticas. Essa estratégia é fundamental para bater a meta!\n\n" +
-
-        "No modo Normal, você verá a estatística do jogador antes de aplicar o multiplicador.\n" +
-        "No modo Desafiador, você terá que confiar no seu conhecimento - a estatística só será revelada depois da escolha!");
-        alerta.showAndWait();
+        mostrarAlerta(Alert.AlertType.INFORMATION, "Dicas de Jogo",  "Estratégia para a Rodada",
+                "Você tem 8 quarterbacks e precisa superar a meta de pontos que definiu no início da rodada.\n\n" +
+                "Cada jogador possui uma estatística de touchdowns, que pode ser total ou passados, dependendo da rodada que você escolheu.\n\n" +
+                "Para cada jogador sorteado, você aplicará um multiplicador: quanto maior o multiplicador, maior o impacto no seu total de pontos.\n\n" +
+                "Dica: Guarde os multiplicadores mais altos para os jogadores com melhores estatísticas. Essa estratégia é fundamental para bater a meta!\n\n" +
+                "No modo Normal, você verá a estatística do jogador antes de aplicar o multiplicador.\n" +
+                "No modo Desafiador, você terá que confiar no seu conhecimento - a estatística só será revelada depois da escolha!",
+                "/icons/lamp.png", 60, 50);
     }
 
     /**
@@ -327,6 +358,29 @@ public class GameController {
         ImageView imageView = new ImageView(imagem);
         imageView.setFitHeight(100);
         imageView.setFitWidth(100);
+        alerta.getDialogPane().setGraphic(imageView);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(header);
+        alerta.setContentText(msg);
+        alerta.showAndWait();
+    }
+
+    /**
+     *  Exibe um alerta customizado com imagem, título, mensagem. A imagem pode ter tamanho personalizado.
+     *  @param tipo Tipo do alerta (INFORMATION, ERROR, etc)
+     *  @param titulo Título da janela
+     *  @param header Texto do cabeçalho
+     *  @param msg Texto do conteúdo
+     *  @param caminhoImagem Caminho da imagem para exibir
+     *  @param altura Altura da imagem
+     *  @param largura Largura da imagem
+     */
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String header, String msg, String caminhoImagem, int altura, int largura) {
+        Alert alerta = new Alert(tipo);
+        Image imagem = new Image(getClass().getResourceAsStream(caminhoImagem));
+        ImageView imageView = new ImageView(imagem);
+        imageView.setFitHeight(altura);
+        imageView.setFitWidth(largura);
         alerta.getDialogPane().setGraphic(imageView);
         alerta.setTitle(titulo);
         alerta.setHeaderText(header);
