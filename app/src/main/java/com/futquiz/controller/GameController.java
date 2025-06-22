@@ -144,7 +144,7 @@ public class GameController {
         dialog.setTitle("Configuração do Jogo");
 
         ImageView imagemConfig = criarImageView("/icons/config.png", 100, 100);
-        Label explicacao = new Label("Esta é a tela de configuração do FutQuiz. Escolha a meta de pontos, o modo de pontuação e o tipo de rodada para começar a jogar! ");
+        Label explicacao = new Label("Esta é a tela de configuração do TouchQuiz. Escolha a meta de pontos, o modo de pontuação e o tipo de rodada para começar a jogar! ");
         explicacao.setWrapText(true);
         explicacao.setMaxWidth(300);
 
@@ -381,7 +381,7 @@ public class GameController {
             Scene scene = new Scene(loader.load(), 500, 400);
             Stage stage = (Stage) tabPane.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("FutQuiz");
+            stage.setTitle("ToucQuiz");
             stage.show();
         } catch (IOException e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível retornar à tela inicial.", e.getMessage(), "/icons/erro(falta).png");

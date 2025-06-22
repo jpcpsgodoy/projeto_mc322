@@ -31,7 +31,7 @@ public class App extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/view/HomeWindow.fxml"));
         Scene scene = new Scene(root, 500, 400);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("FutQuiz");
+        primaryStage.setTitle("TouchQuiz");
         primaryStage.setResizable(false);
         primaryStage.show();
     }

@@ -54,7 +54,7 @@ public class HomeController {
             Pane root = loader.load();
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, 655, 500));
-            stage.setTitle("FutQuiz - Jogo");
+            stage.setTitle("TouchQuiz - Jogo");
             stage.show();
         } catch (IOException e) {
         }
@@ -67,7 +67,7 @@ public class HomeController {
     private void acaoBotaoRegras() {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Regras do Jogo");
-        alerta.setHeaderText("Como jogar o FutQuiz");
+        alerta.setHeaderText("Como jogar o TouchQuiz");
         alerta.setContentText("Neste jogo, seu objetivo é atingir uma meta de touchdowns escolhendo Quarterbacks sorteados e aplicando multiplicadores estratégicos.\n" +
             "A cada jogador sorteado, você analisa suas estatísticas e decide como usá-lo para se aproximar da meta de pontos.\n\n" +
             "Modos de Pontuação:\n" +
