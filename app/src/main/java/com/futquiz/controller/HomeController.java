@@ -12,6 +12,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+/**
+ * Controlador da tela inicial do jogo TouchQuiz.
+ * A classe é responsável por gerenciar a interação do usuário com a tela inicial,
+ * 
+ * @author Larissa Palhares
+ */
 public class HomeController {
     @FXML
     private ImageView logo;

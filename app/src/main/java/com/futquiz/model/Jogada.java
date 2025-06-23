@@ -1,13 +1,20 @@
 package com.futquiz.model;
 
+/**
+ * Classe que representa uma jogada no jogo FutQuiz.
+ * Cada jogada é composta por um quarterback, um multiplicador e os pontos gerados.
+ * 
+ * @author Larissa Palhares
+ */
 public class Jogada {
     private final Quarterback quarterback;
     private final Multiplicador multiplicador;
     private final int pontosGerados;
 
-    /*
+    /**
      * Construtor da classe Jogada
-     *  @param quarterback Quarterback escolhido para a jogada
+     * 
+     * @param quarterback Quarterback escolhido para a jogada
      * @param multiplicador Multiplicador escolhido para a jogada
      * @param pontosGerados Pontos gerados pela atribuição
      */
