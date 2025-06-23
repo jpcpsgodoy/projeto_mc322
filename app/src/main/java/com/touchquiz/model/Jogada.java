@@ -26,6 +26,8 @@ public class Jogada {
 
     /**
      * Metodo getter para acessar o quarterback da jogada
+     * 
+     * @return Quarterback associado à jogada
      */
     public Quarterback getQuarterback() {
         return quarterback;
@@ -33,6 +35,8 @@ public class Jogada {
 
     /**
      * Metodo getter para acessar o multiplicador da jogada
+     * 
+     * @return Multiplicador associado à jogada
      */
     public Multiplicador getMultiplicador() {
         return multiplicador;
@@ -40,6 +44,8 @@ public class Jogada {
 
     /**
      * Metodo getter para acessar os pontos gerados pela jogada
+     * 
+     * @return Pontos gerados pela jogada
      */
     public int getPontosGerados() {
         return pontosGerados;

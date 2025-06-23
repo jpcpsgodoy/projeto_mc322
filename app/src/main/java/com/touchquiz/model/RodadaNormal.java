@@ -6,8 +6,11 @@ package com.touchquiz.model;
  */
 public class RodadaNormal extends Rodada {
     
-    /*
+    /**
      * Construtor da classe RodadaNormal
+     * 
+     * @param meta a meta de pontos da rodada
+     * @param modoPontuacao modo de pontuação da rodada (TD_PASSE ou TD_TOTAL)
      */
     public RodadaNormal(int meta, ModoPontuacao modoPontuacao) {
         super(meta, modoPontuacao);

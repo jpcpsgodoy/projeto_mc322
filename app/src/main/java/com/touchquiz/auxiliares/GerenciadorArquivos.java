@@ -28,6 +28,8 @@ public class GerenciadorArquivos {
      * @param caminho Caminho do arquivo CSV a ser lido. O caminho deve ser relativo
      *                ao classpath.
      * @return Lista de objetos Quarterback carregados a partir do arquivo CSV.
+     * 
+     * @throws NaoFoiPossivelCarregarArquivoException Se ocorrer um erro ao ler o arquivo
      */
     public static List<Quarterback> carregarDados(String caminho) throws NaoFoiPossivelCarregarArquivoException {
         List<Quarterback> quarterbacks = new ArrayList<>();

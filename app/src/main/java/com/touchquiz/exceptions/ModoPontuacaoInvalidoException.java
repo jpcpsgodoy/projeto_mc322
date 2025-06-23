@@ -1,7 +1,8 @@
 package com.touchquiz.exceptions;
 
-/*
+/**
  * Exceçao lançada quando o modo de pontuação é inválido.
+ * 
  * @author Larissa Palhares
  */
 public class ModoPontuacaoInvalidoException extends Exception {
