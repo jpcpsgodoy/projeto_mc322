@@ -61,6 +61,7 @@ public class HomeController {
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root, 655, 500));
             stage.setTitle("TouchQuiz - Jogo");
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
         }
