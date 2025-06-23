@@ -32,6 +32,7 @@ public class App extends Application {
         Scene scene = new Scene(root, 500, 400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("TouchQuiz");
+        primaryStage.centerOnScreen();
         primaryStage.setResizable(false);
         primaryStage.show();
     }
