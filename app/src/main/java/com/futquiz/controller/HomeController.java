@@ -68,6 +68,10 @@ public class HomeController {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Regras do Jogo");
         alerta.setHeaderText("Como jogar o TouchQuiz");
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/icons/playbook.png")));
+        imageView.setFitWidth(80);
+        imageView.setFitHeight(80);
+        alerta.getDialogPane().setGraphic(imageView);
         alerta.setContentText("Neste jogo, seu objetivo é atingir uma meta de touchdowns escolhendo Quarterbacks sorteados e aplicando multiplicadores estratégicos.\n" +
             "A cada jogador sorteado, você analisa suas estatísticas e decide como usá-lo para se aproximar da meta de pontos.\n\n" +
             "Modos de Pontuação:\n" +
