@@ -7,6 +7,8 @@ import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
 import com.futquiz.exceptions.TipoRodadaInvalidoException;
 import com.futquiz.model.Multiplicador;
 import com.futquiz.model.Quarterback;
+import com.futquiz.services.GameService;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -55,6 +57,10 @@ public class GameController {
     private ImageView imagemQBSorteado;
     @FXML
     private ImageView molduraQB;
+    @FXML
+    private ImageView fundoMolduraQB;
+    @FXML
+    private ImageView fundo;
     @FXML
     private VBox vboxMultiplicadores;
     @FXML
@@ -144,7 +150,7 @@ public class GameController {
         dialog.setTitle("Configuração do Jogo");
 
         ImageView imagemConfig = criarImageView("/icons/config.png", 100, 100);
-        Label explicacao = new Label("Esta é a tela de configuração do FutQuiz. Escolha a meta de pontos, o modo de pontuação e o tipo de rodada para começar a jogar! ");
+        Label explicacao = new Label("Esta é a tela de configuração do TouchQuiz. Escolha a meta de pontos, o modo de pontuação e o tipo de rodada para começar a jogar! ");
         explicacao.setWrapText(true);
         explicacao.setMaxWidth(300);
 
@@ -191,7 +197,9 @@ public class GameController {
      * Configura a tela da rodada
      */
     private void configurarTelaRodada() {
-        inicializaMolduraQB();
+        molduraQB.setImage(criarImageView("/icons/moldura_qb.png", 250.0, 200.0).getImage());
+        fundoMolduraQB.setImage(criarImageView("/icons/fundo_moldura.png", 250.0, 200.0).getImage());
+        fundo.setImage(criarImageView("/imagens/fundo.png", 500.0, 600.0).getImage());
         int metaAtual = service.getRodada().getMeta();
         labelMeta.setText("Meta: " + metaAtual);
         construirMultiplicadores();
@@ -256,7 +264,7 @@ public class GameController {
         }
 
         labelNomeQbSorteado.setText(textoQb);
-        imagemQBSorteado.setImage(new Image(getClass().getResourceAsStream("/imagens/" + qbAtual.getId() + ".png")));
+        imagemQBSorteado.setImage(criarImageView("/imagens/" + qbAtual.getId() + ".png", 150.0, 200.0).getImage());
         atualizarEstadoMultiplicadores(true);
         botaoSortear.setDisable(true);
     }
@@ -265,18 +273,11 @@ public class GameController {
      * Limpa a exibição do quarterback após a aplicação de um multiplicador e habilita o botão de sortear
      */
     private void limparExibicaoQB() {
-        imagemQBSorteado.setImage(new Image(getClass().getResourceAsStream("/icons/qb_generico.png")));
+        imagemQBSorteado.setImage(criarImageView("/icons/qb_generico.png", 150.0, 200.0).getImage());
         labelNomeQbSorteado.setText(null);
         qbAtual = null;
         atualizarEstadoMultiplicadores(false);
         botaoSortear.setDisable(false);
-    }
-
-    /**
-     * Inicializa a moldura do quarterback
-     */
-    private void inicializaMolduraQB() {
-        molduraQB.setImage(new Image(getClass().getResourceAsStream("/icons/moldura_qb.png")));
     }
 
     /**
@@ -346,6 +347,11 @@ public class GameController {
         }
     }
 
+    /**
+     *  Exibe a tela de reinício do jogo, perguntando se o jogador deseja iniciar um novo jogo ou voltar para a tela inicial.
+     *  Se o jogador escolher "Sim", exibe a tela de configuração novamente.
+     *  Se escolher "Não", retorna à tela inicial.
+     */
     @FXML
     private void mostrarTelaNovoJogo() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -381,7 +387,7 @@ public class GameController {
             Scene scene = new Scene(loader.load(), 500, 400);
             Stage stage = (Stage) tabPane.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("FutQuiz");
+            stage.setTitle("ToucQuiz");
             stage.show();
         } catch (IOException e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível retornar à tela inicial.", e.getMessage(), "/icons/erro(falta).png");
