@@ -1,4 +1,4 @@
-package com.futquiz.model;
+package com.touchquiz.model;
 
 import java.util.ArrayList;
 import java.util.List;

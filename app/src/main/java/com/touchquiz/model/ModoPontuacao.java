@@ -1,4 +1,4 @@
-package com.futquiz.model;
+package com.touchquiz.model;
 
 /**
  * Enumeração que define os modos de pontuação disponíveis no jogo

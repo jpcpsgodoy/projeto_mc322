@@ -1,4 +1,4 @@
-package com.futquiz.exceptions;
+package com.touchquiz.exceptions;
 
 /**
  * Exceção que representa uma falha na persistência de um arquivo.

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 
 <StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.futquiz.controller.HomeController">
+      fx:controller="com.touchquiz.controller.HomeController">
 
     <ImageView fx:id="fundo" fitHeight="400.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="false"/>
 

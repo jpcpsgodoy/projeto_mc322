@@ -1,14 +1,14 @@
-package com.futquiz.controller;
+package com.touchquiz.controller;
 
-import com.futquiz.auxiliares.GerenciadorArquivos;
-import com.futquiz.exceptions.FalhaPersistenciaArquivoException;
-import com.futquiz.exceptions.ModoPontuacaoInvalidoException;
-import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
-import com.futquiz.exceptions.TipoRodadaInvalidoException;
-import com.futquiz.model.Multiplicador;
-import com.futquiz.model.Quarterback;
+import com.touchquiz.auxiliares.GerenciadorArquivos;
+import com.touchquiz.exceptions.FalhaPersistenciaArquivoException;
+import com.touchquiz.exceptions.ModoPontuacaoInvalidoException;
+import com.touchquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
+import com.touchquiz.exceptions.TipoRodadaInvalidoException;
+import com.touchquiz.model.Multiplicador;
+import com.touchquiz.model.Quarterback;
 
-import com.futquiz.services.GameService;
+import com.touchquiz.services.GameService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.Event;

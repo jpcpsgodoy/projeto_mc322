@@ -1,131 +1,119 @@
-# FutQuiz (nome temporário)
+# TouchQuiz
 
-Projeto da disciplina de Programação Orientada a Objetos (MC322).  
-Trata-se de um jogo baseado em estatísticas de jogadores (quarterbacks).
+Projeto da disciplina de Programação Orientada a Objetos (MC322).
+
+O TouchQuiz tem como objetivo criar uma experiência para fãs de futebol americano, estimulando o raciocínio estratégico através de quarterbacks e multiplicadores, onde o jogador precisa alcançar uma meta pré-estipulada multiplicando as estatísticas dos atletas. É uma ferramenta educativa e ao mesmo tempo um passatempo que testa o conhecimento do jogador sobre os atletas da posição mais importante do futebol americano.
+
+
+## Como executar o programa
+Pré-requisitos:
+- Java 21 instalado e configurado no PATH.
+- Gradle instalado (ou usar o wrapper).
+- Clonar o repositório:
+   - git clone https://github.com/jpcpsgodoy/projeto_mc322.git
+- Compilar com ./gradle build ou gradlew.bat build e executar com ./gradlew run, gradlew.bat run ou pela extensão do Gradle na IDE.
+
 
 ## Estrutura atual do projeto
 
 ```
-PROJETO_MC322/
-├── .gradle/
+FutQuiz/
 ├── .gitignore
-├── .gitattributes
-├── build.gradle
+├── app/
+│   ├── historico_jogos.csv
+│   └── src/
+│       ├── main/
+│       │   ├── java/
+│       │   │   └── com/futquiz/
+│       │   │       ├── App.java
+│       │   │       ├── auxiliares/
+│       │   │       │   └── GerenciadorArquivos.java
+│       │   │       ├── controller/
+│       │   │       │   ├── GameController.java
+│       │   │       │   └── HomeController.java
+│       │   │       ├── exceptions/
+│       │   │       │   ├── FalhaPersistenciaArquivoException.java
+│       │   │       │   ├── ModoPontuacaoInvalidoException.java
+│       │   │       │   ├── NaoFoiPossivelCarregarArquivoException.java
+│       │   │       │   └── TipoRodadaInvalidoException.java
+│       │   │       ├── model/
+│       │   │       │   ├── Jogada.java
+│       │   │       │   ├── ModoPontuacao.java
+│       │   │       │   ├── Multiplicador.java
+│       │   │       │   ├── MultiplicadorFactory.java
+│       │   │       │   ├── Quarterback.java
+│       │   │       │   ├── Rodada.java
+│       │   │       │   ├── RodadaDesafio.java
+│       │   │       │   ├── RodadaFactory.java
+│       │   │       │   └── RodadaNormal.java
+│       │   │       ├── services/
+│       │   │       │   └── GameService.java
+│       │   │       └── view/
+│       │   │           └── (Arquivos FXML da interface, ex: HomeWindow.fxml, GameWindow.fxml)
+│       │   └── resources/
+│       │       ├── dados.csv
+│       │       └── (Ícones e imagens)
+│       └── test/
+│           └── java/
+│               └── com/futquiz/
+│                   └── AppTest.java
 ├── gradle/
-│   └── wrapper/
+├── build.gradle
 ├── gradlew
 ├── gradlew.bat
-├── README.md
 ├── settings.gradle
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/futquiz/
-│   │   │       ├── auxiliares/
-│   │   │       ├── controller/
-│   │   │       ├── exceptions/
-│   │   │       ├── model/
-│   │   │       └── view/
-│   │   │       └── App.java
-│   │   └── resources/
-│   └── test/
+└── README.md
 ```
 
+## Funcionalidades principais
+- Sortear quarterbacks aleatoriamente
 
-## Branches existentes
+- Aplicar multiplicadores estratégicos
 
-- `dev` (ramo de desenvolvimento principal)
-- `feature/model-partida`
-- `feature/controller-jogo`
-- `feature/view-jogo`
-- `feature/persistencia-arquivo`
-- `feature/carregar-estatisticas`
+- Meta de pontos por rodada (escolhida pelo jogador)
+
+- Dois modos de pontuação:
+
+   - Touchdowns passados
+
+   - Touchdowns totais
+
+- Dois tipos de rodada:
+
+   - Normal (exibe estatísticas antes de aplicar multiplicador)
+
+   - Desafio (estatísticas só aparecem após aplicar)
+
+- Exibição de histórico com cores (verde/vermelho)
+
+- Persistência dos resultados em arquivo
+
+- Alertas estilizados para vitória, derrota e erros
+
+## Escolhas de Design e Arquitetura
+
+O projeto aplica práticas recomendadas de Programação Orientada a Objetos (POO) e alguns Design Patterns conhecidos para manter o código limpo, modular e de fácil manutenção.
+
+- MVC (Model-View-Controller)
+
+   - Model: Classes de negócio (Quarterback, Multiplicador, Rodada, GameService) isolam a lógica central do jogo.
+
+   - View: Interfaces gráficas definidas com FXML (HomeWindow.fxml, GameWindow.fxml) para separação clara da apresentação.
+
+   - Controller: Classes como HomeController e GameController interligam interação do usuário com a lógica de negócio.
+
+Facilita manutenção e permite mudanças no layout sem alterar a lógica.
+
+- Singleton (GameService)
+
+   - O GameService é implementado como Singleton, garantindo uma única instância para gerenciar o estado da partida em qualquer parte do código.
+
+Consistência de dados e controle centralizado da lógica de jogo.
+
+- Factory (Multiplicadores e Rodadas)
+
+   - A criação de rodadas e multiplicadores seguem uma lógica parecida com um Factory, encapsulando a criação de objetos conforme a escolha do usuário.
+
+Simplifica a geração de objetos sem expor detalhes de implementação.
 
 
-## Clonar o projeto
-
-1. Acesse o repositório no GitHub.
-2. Copie o link HTTPS (ex: `https://github.com/usuario/projeto_mc322.git`)
-3. No terminal:
-
-```
-git clone https://github.com/usuario/projeto_mc322.git
-cd projeto_mc322
-```
-
-
-## Como trabalhar no projeto
-
-### Verifique a branch atual
-
-```
-git branch
-```
-
-Se estiver em `main`, mude para `dev`:
-
-```
-git checkout dev
-```
-
-### Vá para a branch da sua tarefa
-
-```
-git checkout feature/nome-da-feature
-```
-
----
-
-### Adicionar e commitar alterações
-
-```
-git add .
-git commit -m "descrição objetiva do que foi feito"
-```
-
----
-
-### Subir alterações para o GitHub
-
-```
-git push origin feature/nome-da-feature
-```
-
----
-
-### Criar Pull Request (PR)
-
-1. Acesse o repositório no GitHub
-2. Vá na aba **Pull requests**
-3. Clique em **New pull request**
-4. Selecione:
-   - base: `dev`
-   - compare: `feature/nome-da-feature`
-5. Envie o PR para que outro membro revise
-
----
-
-### Atualizar branch com mudanças da `dev`
-
-Se outras features foram integradas na `dev`, atualize a branch:
-
-```
-git checkout dev
-git pull origin dev
-git checkout feature/sua-branch
-git merge dev
-```
-
-Resolva conflitos se aparecerem, depois continue o trabalho.
-
----
-
-## Progresso
-- As pastas model, view e controller indicam o padrão de projeto MVC e junto do padrão fábrica, formam os padroẽs de projeto até agora. Falta 1.
-- A leitura dos dados dos jogadores está pronta e funcionando corretamente
-
-## Proteções ativas
-
-- `main`: protegida contra push direto
-- `dev`: protegida contra push direto
-- Toda contribuição deve ser feita via Pull Request (PR)

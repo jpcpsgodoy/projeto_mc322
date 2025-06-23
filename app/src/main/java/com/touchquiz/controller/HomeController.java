@@ -1,4 +1,4 @@
-package com.futquiz.controller;
+package com.touchquiz.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

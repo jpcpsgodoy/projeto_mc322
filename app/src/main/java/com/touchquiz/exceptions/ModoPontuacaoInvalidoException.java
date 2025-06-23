@@ -1,4 +1,4 @@
-package com.futquiz.exceptions;
+package com.touchquiz.exceptions;
 
 /*
  * Exceçao lançada quando o modo de pontuação é inválido.

@@ -1,4 +1,4 @@
-package com.futquiz.model;
+package com.touchquiz.model;
 
 /**
  * Classe que representa uma jogada no jogo FutQuiz.

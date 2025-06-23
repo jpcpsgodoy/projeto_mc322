@@ -1,4 +1,4 @@
-package com.futquiz.exceptions;
+package com.touchquiz.exceptions;
 
 /**
  * Exceção lançada quando não é possível carregar um arquivo.
