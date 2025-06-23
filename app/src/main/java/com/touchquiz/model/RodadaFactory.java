@@ -1,6 +1,6 @@
-package com.futquiz.model;
+package com.touchquiz.model;
 
-import com.futquiz.exceptions.*;
+import com.touchquiz.exceptions.*;
 /**
  * Fábrica de rodadas que cria instâncias de Rodada
  * @author Larissa Palhares
@@ -33,12 +33,12 @@ public class RodadaFactory {
      */
     private static ModoPontuacao validarModoPontuacao(String modoSelecionado) 
                                                      throws ModoPontuacaoInvalidoException {
-        if (modoSelecionado.equals("Passados")) {
+        if (modoSelecionado.equals("Touchdowns passados")) {
             return ModoPontuacao.TD_PASSE;
-        } else if (modoSelecionado.equals("Totais")) {
+        } else if (modoSelecionado.equals("Touchdowns totais")) {
             return ModoPontuacao.TD_TOTAL;
         } else {
-            throw new ModoPontuacaoInvalidoException("Escolha um modo de pontuação válido: Passados ou Totais.");
+            throw new ModoPontuacaoInvalidoException("Escolha um modo de pontuação entre touchdowns passados ou touchdowns totais.");
         }
     }
 

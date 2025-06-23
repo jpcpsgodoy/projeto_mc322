@@ -1,4 +1,4 @@
-package com.futquiz.model;
+package com.touchquiz.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,12 @@ import java.util.List;
  * @author João Pedro
  */
 public class MultiplicadorFactory {
+
+    private static final List<Integer> metasDisponiveis = List.of(2000, 3500, 5000);
+
+    public static List<Integer> getMetasDisponiveis() {
+        return metasDisponiveis;
+    }
 
     /**
      * Cria uma lista de multiplicadores com base na meta fornecida

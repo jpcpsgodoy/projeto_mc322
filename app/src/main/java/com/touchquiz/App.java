@@ -1,4 +1,4 @@
-package com.futquiz;
+package com.touchquiz;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -26,12 +26,13 @@ public class App extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/quarterback.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/logo.png")));
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/GameWindow.fxml"));
-        Scene scene = new Scene(root, 655, 500);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/HomeWindow.fxml"));
+        Scene scene = new Scene(root, 500, 400);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("FutQuiz");
+        primaryStage.setTitle("TouchQuiz");
+        primaryStage.centerOnScreen();
         primaryStage.setResizable(false);
         primaryStage.show();
     }

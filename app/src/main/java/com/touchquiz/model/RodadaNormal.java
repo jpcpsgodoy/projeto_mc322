@@ -1,6 +1,6 @@
-package com.futquiz.model;
+package com.touchquiz.model;
 
-/*
+/**
  * Classe que representa uma rodada normal no jogo FutQuiz
  * @author Larissa Palhares
  */

@@ -1,4 +1,4 @@
-package com.futquiz.model;
+package com.touchquiz.model;
 
 import java.util.List;
 import java.util.Random;
@@ -11,6 +11,12 @@ import java.util.Random;
  */
 public class RodadaDesafio extends Rodada {
 
+    /**
+     * Construtor da classe RodadaDesafio
+     *
+     * @param meta a meta de pontos da rodada
+     * @param modoPontuacao modo de pontuação da rodada (TD_PASSE ou TD_TOTAL)
+     */
     public RodadaDesafio(int meta, ModoPontuacao modoPontuacao) {
         super(meta, modoPontuacao);
         this.exibeEstatisticas = false;
@@ -26,9 +32,17 @@ public class RodadaDesafio extends Rodada {
         this.meta = (int) (meta * 1.1);
     }
 
+    /**
+     * Método que sorteia um quarterback da lista de quarterbacks
+     * para a rodada de desafio. Ele escolhe aleatoriamente um quarterback
+     * entre os 50 melhores, garantindo que não seja repetido.
+     *
+     * @param quarterbacks Lista de quarterbacks disponíveis
+     * @return Quarterback sorteado
+     */
     @Override
     public Quarterback sortearQuarterback(List<Quarterback> quarterbacks) {
-        List<Quarterback> top50 = quarterbacks.subList(0, Math.min(50, quarterbacks.size()));
+        List<Quarterback> top50 = quarterbacks.subList(4, Math.min(50, quarterbacks.size()));
         Random rand = new Random();
         Quarterback sorteado;
         do {

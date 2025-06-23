@@ -43,7 +43,7 @@ javadoc {
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.futquiz.App'
+    mainClass = 'com.touchquiz.App'
 }
 
 tasks.named('test') {

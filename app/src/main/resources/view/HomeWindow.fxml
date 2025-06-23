@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.touchquiz.controller.HomeController">
+
+    <ImageView fx:id="fundo" fitHeight="400.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="false"/>
+
+    <VBox spacing="20" alignment="CENTER" prefHeight="300.0" prefWidth="400.0">
+
+        <Text text="Bem-vindo!" style="-fx-font-size: 20px;"/>
+
+        <ImageView fx:id="logo" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true"/>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button fx:id="botaoContinuar" text="Continuar" onAction="#acaoBotaoContinuar" prefWidth="150"/>
+            
+            <Button fx:id="botaoRegras" text="Regras" onAction="#acaoBotaoRegras" prefWidth="150"/>
+        </HBox>
+    </VBox>
+</StackPane>
