@@ -7,6 +7,8 @@ import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
 import com.futquiz.exceptions.TipoRodadaInvalidoException;
 import com.futquiz.model.Multiplicador;
 import com.futquiz.model.Quarterback;
+import com.futquiz.services.GameService;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -57,6 +59,8 @@ public class GameController {
     private ImageView molduraQB;
     @FXML
     private ImageView fundoMolduraQB;
+    @FXML
+    private ImageView fundo;
     @FXML
     private VBox vboxMultiplicadores;
     @FXML
@@ -195,6 +199,7 @@ public class GameController {
     private void configurarTelaRodada() {
         molduraQB.setImage(criarImageView("/icons/moldura_qb.png", 250.0, 200.0).getImage());
         fundoMolduraQB.setImage(criarImageView("/icons/fundo_moldura.png", 250.0, 200.0).getImage());
+        fundo.setImage(criarImageView("/imagens/fundo.png", 500.0, 600.0).getImage());
         int metaAtual = service.getRodada().getMeta();
         labelMeta.setText("Meta: " + metaAtual);
         construirMultiplicadores();
