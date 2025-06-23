@@ -12,6 +12,11 @@ public class MultiplicadorFactory {
 
     private static final List<Integer> metasDisponiveis = List.of(2000, 3500, 5000);
 
+    /**
+     * Retorna uma lista de metas disponíveis para o jogo
+     * 
+     * @return uma lista de metas (2000, 3500, 5000)
+     */
     public static List<Integer> getMetasDisponiveis() {
         return metasDisponiveis;
     }

@@ -3,6 +3,7 @@ package com.touchquiz.model;
 import com.touchquiz.exceptions.*;
 /**
  * Fábrica de rodadas que cria instâncias de Rodada
+ * 
  * @author Larissa Palhares
  */
 public class RodadaFactory {
@@ -28,7 +29,9 @@ public class RodadaFactory {
     /**
      * Valida o modo de pontuação selecionado e retorna o modo correspondente
      * @param modoSelecionado String que representa o modo de pontuação selecionado
+     * 
      * @return ModoPontuacao correspondente ao modo de pontuação selecionado
+     * 
      * @throws ModoPontuacaoInvalidoException se o modo de pontuação selecionado for inválido
      */
     private static ModoPontuacao validarModoPontuacao(String modoSelecionado) 

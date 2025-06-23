@@ -35,6 +35,12 @@ public class GameService {
     private GameService() {
     }
 
+    /**
+     * Retorna a instância única do GameService
+     * Se a instância ainda não foi criada, cria uma nova instância
+     *
+     * @return Instância única do GameService
+     */
     public static GameService getInstance() {
         if (instancia == null) {
             instancia = new GameService();
@@ -77,6 +83,12 @@ public class GameService {
 
     /**
      * Reinicia o jogo, limpando rodada e histórico
+     * 
+     * @throws NaoFoiPossivelCarregarArquivoException se ocorrer um erro ao carregar
+     *                                                o arquivo CSV
+     * @throws ModoPontuacaoInvalidoException         se o modo de pontuação fornecido for
+     *                                                inválido
+     * @throws TipoRodadaInvalidoException            se o tipo de rodada fornecido for inválido
      */
     public void reiniciarJogoMesmasConfigs() throws NaoFoiPossivelCarregarArquivoException, ModoPontuacaoInvalidoException, TipoRodadaInvalidoException {
         iniciarJogo(this.ultimaMeta, this.ultimoModoPontuacao, this.ultimoTipoRodada);
@@ -101,6 +113,7 @@ public class GameService {
      *
      * @param qb            Quarterback cuja pontuação será multiplicada
      * @param multiplicador Multiplicador a ser aplicado à pontuação do quarterback
+     * 
      * @return A pontuação resultante após a aplicação do multiplicador
      */
     public int aplicarMultiplicador(Quarterback qb, Multiplicador multiplicador) {
