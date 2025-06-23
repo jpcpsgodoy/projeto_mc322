@@ -33,7 +33,7 @@ public class Quarterback {
         this.tdsTotal = tdsTotal;
     }
 
-    /*
+    /**
      * Método getter para o ID do quarterback.
      * 
      * @return ID do quarterback.
@@ -42,7 +42,7 @@ public class Quarterback {
         return id;
     }
 
-    /*
+    /**
      * Método getter para o nome do quarterback.
      * 
      * @return Nome do quarterback.
@@ -51,7 +51,7 @@ public class Quarterback {
         return nome;
     }
 
-    /*
+    /**
      * Método getter para o total de touchdowns passados do quarterback.
      * 
      * @return Total de touchdowns passados do quarterback.
@@ -60,7 +60,7 @@ public class Quarterback {
         return tdsPasse;
     }
 
-    /*
+    /**
      * Método getter para o total de touchdowns corridos do quarterback.
      * 
      * @return Total de touchdowns corridos do quarterback.
@@ -69,7 +69,7 @@ public class Quarterback {
         return tdsCorridos;
     }
 
-    /*
+    /**
      * Método getter para o total de touchdowns do quarterback.
      * 
      * @return Total de touchdowns do quarterback.
@@ -78,7 +78,7 @@ public class Quarterback {
         return tdsTotal;
     }
 
-    /*
+    /**
      * Método que retorna as estatísticas do quarterback em formato de String.
      * @return String representando o quarterback.
      */

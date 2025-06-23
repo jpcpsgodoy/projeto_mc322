@@ -20,7 +20,7 @@ public abstract class Rodada {
     protected int pontosAcumulados;
     protected ModoPontuacao modoPontuacao;
 
-    /*
+    /**
      * Construtor da classe Rodada
      * @param meta a meta de pontos da rodada
      * @param modoPontuacao modo de pontuação da rodada (TD_PASSE ou TD_TOTAL)
@@ -32,26 +32,26 @@ public abstract class Rodada {
         this.multiplicadores = new ArrayList<>();
     }
 
-    /*
+    /**
      * Método abstrato que deve ser implementado para iniciar a rodada
      */
     public abstract void iniciarRodada();
 
-    /*
+    /**
      * Método getter que retorna se as estatísticas devem ser exibidas, a depender do modo da Rodada
      */
     public boolean getExibeEstatisticas() {
         return exibeEstatisticas;
     }
 
-    /*
+    /**
      * Método que verifica se a meta foi alcançada
      */
     public boolean metaAlcancada() {
         return pontosAcumulados >= meta;
     }
 
-    /*
+    /**
      * Método que verifica se o jogador venceu a rodada
      * O jogador vence se não tiver mais multiplicadores e alcancou a meta
      */
@@ -60,7 +60,7 @@ public abstract class Rodada {
     }
 
 
-    /*
+    /**
      * Método que verifica se o jogador perdeu a rodada
      * O jogador perde se não tiver mais multiplicadores e não alcancou a meta
      */
@@ -69,21 +69,21 @@ public abstract class Rodada {
     }
 
 
-    /*
+    /**
      * Método getter que retorna a pontuação acumulada na rodada
      */
     public int getPontosAcumulados() {
         return pontosAcumulados;
     }
 
-    /*
+    /**
      * Método getter que retorna a meta da rodada
      */
     public int getMeta() {
         return meta;
     }
 
-    /*
+    /**
      * Método que adiciona pontos ao acumulo de pontos da rodada
      * @param pontos a quantidade de pontos a ser adicionada
      */
@@ -91,14 +91,14 @@ public abstract class Rodada {
         this.pontosAcumulados += pontos;
     }
 
-    /*
+    /**
      * Método getter que retorna a lista de multiplicadores disponíveis na rodada
      */
     public List<Multiplicador> getMultiplicadores() {
         return multiplicadores;
     }
 
-    /*
+    /**
      * Método que sorteia um Quarterback da lista de quarterbacks disponíveis
      * @param quarterbacks a lista de quarterbacks disponíveis para sorteio
      * @return o Quarterback sorteado
@@ -114,7 +114,7 @@ public abstract class Rodada {
         return sorteado;
     }
 
-    /*
+    /**
      * Método que registra o Quarterback que foi sorteado foi escolhido para não ser sorteado novamente
      * @param quarterback o Quarterback que foi sorteado
      */
@@ -122,7 +122,7 @@ public abstract class Rodada {
         idsSorteados.add(quarterback.getId());
     }
 
-    /*
+    /**
      * Método getter que retorna a pontuação do Quarterback de acordo com o modo de pontuação escolhido
      * @param quarterback o Quarterback que deseja obter a pontuação
      * @return a pontuação do Quarterback

@@ -24,21 +24,21 @@ public class Jogada {
         this.pontosGerados = pontosGerados;
     }
 
-    /*
+    /**
      * Metodo getter para acessar o quarterback da jogada
      */
     public Quarterback getQuarterback() {
         return quarterback;
     }
 
-    /*
+    /**
      * Metodo getter para acessar o multiplicador da jogada
      */
     public Multiplicador getMultiplicador() {
         return multiplicador;
     }
 
-    /*
+    /**
      * Metodo getter para acessar os pontos gerados pela jogada
      */
     public int getPontosGerados() {
