@@ -22,7 +22,7 @@ public class GameService {
     private List<Quarterback> quarterbacks;
     private boolean jogoTerminado = false;
     private int ultimaMeta;
-    private String ultimoModo;
+    private String ultimoModoPontuacao;
     private String ultimoTipoRodada;
     private static GameService instancia;
 
@@ -49,37 +49,37 @@ public class GameService {
      * a partir de um arquivo CSV.
      *
      * @param meta              Meta de touchdowns a ser alcançada no jogo
-     * @param modo              Modo de pontuação a ser utilizado no jogo (TD_PASSE
+     * @param modoPontuacao     Modo de pontuação a ser utilizado no jogo (TD_PASSE
      *                          ou TD_TOTAL)
-     * @param exibeEstatisticas Indica se as estatísticas devem ser exibidas durante
-     *                          o jogo
+     * @param tipoRodada        Indica o tipo de rodada (Normal ou Desafio)
+     * 
      * @throws NaoFoiPossivelCarregarArquivoException se ocorrer um erro ao carregar
      *                                                o arquivo CSV
      * @throws ModoPontuacaoInvalidoException         se o modo de pontuação fornecido for
      *                                                inválido
      * @throws TipoRodadaInvalidoException            se o tipo de rodada fornecido for inválido
      */
-    public void iniciarJogo(int meta, String modo, String exibeEstatisticas)
+    public void iniciarJogo(int meta, String modoPontuacao, String tipoRodada)
             throws NaoFoiPossivelCarregarArquivoException,
             ModoPontuacaoInvalidoException,
             TipoRodadaInvalidoException {
 
         quarterbacks = GerenciadorArquivos.carregarDados("/dados.csv");
         this.historico.clear();
-        rodada = RodadaFactory.criarRodada(meta, modo, exibeEstatisticas);
+        rodada = RodadaFactory.criarRodada(meta, modoPontuacao, tipoRodada);
 
         rodada.iniciarRodada();
 
         ultimaMeta = meta;
-        ultimoModo = modo;
-        ultimoTipoRodada = exibeEstatisticas;
+        ultimoModoPontuacao = modoPontuacao;
+        ultimoTipoRodada = tipoRodada;
     }
 
     /**
      * Reinicia o jogo, limpando rodada e histórico
      */
     public void reiniciarJogoMesmasConfigs() throws NaoFoiPossivelCarregarArquivoException, ModoPontuacaoInvalidoException, TipoRodadaInvalidoException {
-        iniciarJogo(this.ultimaMeta, this.ultimoModo, this.ultimoTipoRodada);
+        iniciarJogo(this.ultimaMeta, this.ultimoModoPontuacao, this.ultimoTipoRodada);
     }
 
 
@@ -218,7 +218,7 @@ public class GameService {
 
         GerenciadorArquivos.gravarResumo(
                 this.ultimoTipoRodada,
-                this.ultimoModo,
+                this.ultimoModoPontuacao,
                 this.ultimaMeta,
                 pontos,
                 listaDetalhes
