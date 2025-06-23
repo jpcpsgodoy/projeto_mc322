@@ -1,6 +1,6 @@
-package com.futquiz.model;
+package com.touchquiz.model;
 
-import com.futquiz.exceptions.*;
+import com.touchquiz.exceptions.*;
 /**
  * Fábrica de rodadas que cria instâncias de Rodada
  * @author Larissa Palhares

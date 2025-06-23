@@ -1,10 +1,10 @@
-package com.futquiz.services;
+package com.touchquiz.services;
 
-import com.futquiz.auxiliares.GerenciadorArquivos;
-import com.futquiz.exceptions.ModoPontuacaoInvalidoException;
-import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
-import com.futquiz.exceptions.TipoRodadaInvalidoException;
-import com.futquiz.model.*;
+import com.touchquiz.auxiliares.GerenciadorArquivos;
+import com.touchquiz.exceptions.ModoPontuacaoInvalidoException;
+import com.touchquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
+import com.touchquiz.exceptions.TipoRodadaInvalidoException;
+import com.touchquiz.model.*;
 
 import java.util.ArrayList;
 import java.util.List;

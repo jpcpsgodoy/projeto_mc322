@@ -1,4 +1,4 @@
-package com.futquiz;
+package com.touchquiz;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

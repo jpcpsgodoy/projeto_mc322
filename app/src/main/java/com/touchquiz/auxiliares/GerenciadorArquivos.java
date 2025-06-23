@@ -1,11 +1,11 @@
-package com.futquiz.auxiliares;
+package com.touchquiz.auxiliares;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.futquiz.model.*;
-import com.futquiz.exceptions.*;
+import com.touchquiz.model.*;
+import com.touchquiz.exceptions.*;
 
 /**
  * Classe responsável por ler dados de um arquivo CSV e carregar objetos

@@ -1,4 +1,4 @@
-package com.futquiz.exceptions;
+package com.touchquiz.exceptions;
 
 /*
  * Exceção lançada quando o tipo de rodada é inválido.
