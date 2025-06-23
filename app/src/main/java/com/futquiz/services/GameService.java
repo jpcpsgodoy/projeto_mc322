@@ -1,4 +1,4 @@
-package com.futquiz.services;
+package com.futquiz.controller;
 
 import com.futquiz.auxiliares.GerenciadorArquivos;
 import com.futquiz.exceptions.ModoPontuacaoInvalidoException;
