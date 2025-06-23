@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-/*
+/**
  * Classe abstrata que representa a Rodada do jogo
  * @author Larissa Palhares
  * @author João Pedro
@@ -51,11 +51,19 @@ public abstract class Rodada {
         return pontosAcumulados >= meta;
     }
 
+    /*
+     * Método que verifica se o jogador venceu a rodada
+     * O jogador vence se não tiver mais multiplicadores e alcancou a meta
+     */
     public boolean jogadorVenceu() {
         return multiplicadores.isEmpty() && metaAlcancada();
     }
 
 
+    /*
+     * Método que verifica se o jogador perdeu a rodada
+     * O jogador perde se não tiver mais multiplicadores e não alcancou a meta
+     */
     public boolean jogadorPerdeu() {
         return multiplicadores.isEmpty() && !metaAlcancada();
     }

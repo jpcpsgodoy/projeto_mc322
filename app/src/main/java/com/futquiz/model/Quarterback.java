@@ -1,6 +1,6 @@
 package com.futquiz.model;
 
-/*
+/**
  * Classe que representa um Quarterback no jogo.
  * O jogador possui um ID, nome, total de touchdowns passados, corridos e total.
  * @author Larissa Palhares
@@ -12,7 +12,7 @@ public class Quarterback {
     private int tdsCorridos;
     private int tdsTotal;
 
-    /*
+    /**
      * Construtor da classe Quarterback.
      * 
      * @param id ID único do quarterback.
