@@ -7,8 +7,8 @@ import com.futquiz.exceptions.NaoFoiPossivelCarregarArquivoException;
 import com.futquiz.exceptions.TipoRodadaInvalidoException;
 import com.futquiz.model.Multiplicador;
 import com.futquiz.model.Quarterback;
-import com.futquiz.services.GameService;
 
+import com.futquiz.services.GameService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -77,12 +77,6 @@ public class GameController {
 
     private Quarterback qbAtual;
 
-    private boolean abrirHistorico = false;
-
-    public void setAbrirHistorico(boolean abrir) {
-        this.abrirHistorico = abrir;
-    }
-
     /**
      * Inicializa o jogo
      */
@@ -100,7 +94,7 @@ public class GameController {
      */
     private void configurarTabelaJogosRecentes() {
         colExibicao.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[0]));
-        colStats.setCellValueFactory(data -> new SimpleStringProperty("TDs " + data.getValue()[1]));
+        colStats.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[1]));
         colMeta.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[2]));
         colPontos.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[3]));
         colPontos.setCellFactory(column -> new TableCell<>() {
@@ -148,6 +142,10 @@ public class GameController {
         dialog.setResizable(false);
         dialog.setOnCloseRequest(Event::consume);
         dialog.setTitle("Configuração do Jogo");
+        if (tabPane.getScene() != null) {
+            Stage owner = (Stage) tabPane.getScene().getWindow();
+            dialog.initOwner(owner);
+        }
 
         ImageView imagemConfig = criarImageView("/icons/config.png", 100, 100);
         Label explicacao = new Label("Esta é a tela de configuração do TouchQuiz. Escolha a meta de pontos, o modo de pontuação e o tipo de rodada para começar a jogar! ");
@@ -155,7 +153,7 @@ public class GameController {
         explicacao.setMaxWidth(300);
 
         ComboBox<Integer> metaBox = criarComboBox(service.obterMetasDisponiveis());
-        ComboBox<String> modoBox = criarComboBox("Tipo de Pontuação", "Passados", "Totais");
+        ComboBox<String> modoBox = criarComboBox("Modo de Pontuação", "Touchdowns passados", "Touchdowns totais");
         ComboBox<String> tipoBox = criarComboBox("Tipo de Rodada", "Normal", "Desafio");
 
         Button iniciar = new Button("Iniciar Jogo");
@@ -361,8 +359,9 @@ public class GameController {
         ImageView imagem = criarImageView("/icons/reiniciar.png", 40, 40);
         alert.getDialogPane().setGraphic(imagem);
 
-        Stage stage = (Stage) tabPane.getScene().getWindow();
-        alert.initOwner(stage);
+        Stage owner = (Stage) tabPane.getScene().getWindow();
+        alert.initOwner(owner);
+        alert.initModality(Modality.WINDOW_MODAL);
 
         ButtonType botaoSim = new ButtonType("Sim");
         ButtonType botaoNao = new ButtonType("Não");
@@ -387,7 +386,7 @@ public class GameController {
             Scene scene = new Scene(loader.load(), 500, 400);
             Stage stage = (Stage) tabPane.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("ToucQuiz");
+            stage.setTitle("TouchQuiz");
             stage.show();
         } catch (IOException e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Erro", "Não foi possível retornar à tela inicial.", e.getMessage(), "/icons/erro(falta).png");
@@ -409,6 +408,10 @@ public class GameController {
         alert.setContentText("Você deseja reiniciar a rodada atual com as mesmas configurações?");
         ImageView imagem = criarImageView("/icons/reiniciar.png", 40, 40);
         alert.getDialogPane().setGraphic(imagem);
+
+        Stage owner = (Stage) tabPane.getScene().getWindow();
+        alert.initOwner(owner);
+        alert.initModality(Modality.WINDOW_MODAL);
 
         ButtonType botaoSim = new ButtonType("Sim");
         ButtonType botaoNao = new ButtonType("Mudar Configurações");
@@ -464,8 +467,11 @@ public class GameController {
         alerta.setTitle(titulo);
         alerta.setHeaderText(header);
         alerta.setContentText(msg);
-        Stage owner = (Stage) tabPane.getScene().getWindow();
-        alerta.initOwner(owner);
+        if (tabPane.getScene() != null) {
+            Stage owner = (Stage) tabPane.getScene().getWindow();
+            alerta.initOwner(owner);
+        }
+
         alerta.initModality(Modality.WINDOW_MODAL);
         alerta.showAndWait();
     }
@@ -488,8 +494,11 @@ public class GameController {
         alerta.setTitle(titulo);
         alerta.setHeaderText(header);
         alerta.setContentText(msg);
-        Stage owner = (Stage) tabPane.getScene().getWindow();
-        alerta.initOwner(owner);
+        if (tabPane.getScene() != null) {
+            Stage owner = (Stage) tabPane.getScene().getWindow();
+            alerta.initOwner(owner);
+        }
+
         alerta.initModality(Modality.WINDOW_MODAL);
         alerta.showAndWait();
     }
