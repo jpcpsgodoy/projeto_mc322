@@ -3,5 +3,120 @@
  */
 package com.touchquiz;
 
+import com.touchquiz.exceptions.ModoPontuacaoInvalidoException;
+import com.touchquiz.exceptions.TipoRodadaInvalidoException;
+import com.touchquiz.model.Multiplicador;
+import com.touchquiz.model.Quarterback;
+import com.touchquiz.services.GameService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Classe de testes para o jogo
+ */
 class AppTest {
+    // Instância do serviço
+    private GameService gameService;
+
+    /**
+     * Inicializa o serviço antes de cada teste
+     */
+    @BeforeEach
+    void setUp() {
+        gameService = GameService.getInstance();
+    }
+
+    /**
+     * Teste de exceção para modos de pontuação inválidos
+     */
+    @Test
+    void deveLancarExcecaoParaModoPontuacaoInvalido() {
+        assertThrows(ModoPontuacaoInvalidoException.class, () -> {
+            gameService.iniciarJogo(2000, "Modo inválido", "Normal");
+        });
+    }
+
+    /**
+     * Teste de exceção para tipos de rodadas inválidos
+     */
+    @Test
+    void deveLancarExcecaoParaTipoRodadaInvalido() {
+        assertThrows(TipoRodadaInvalidoException.class, () -> {
+            gameService.iniciarJogo(2000, "Touchdowns passados", "Tipo inválido");
+        });
+    }
+
+    /**
+     * Teste de exceção para não foi possivel carregar o arquivo CSV.
+     * Neste caso, como o caminho do arquivo já está bem estabelecido na pasta do projeto,
+     * não tem como a exceção ser lançada, portanto o teste é para que ela NÃO seja lançada.
+     */
+    @Test
+    void naoDeveLancarExcecaoParaNaoFoiPossivelCarregarArquivo() {
+        assertDoesNotThrow(() ->  {
+            gameService.iniciarJogo(2000, "Touchdowns passados", "Normal");
+        });
+    }
+
+    /**
+     * Teste de sorteio de quarterbacks
+     */
+    @Test
+    void deveSortearUmQuarterbackCorretamente() throws Exception {
+        gameService.iniciarJogo(3500, "Touchdowns totais", "Normal");
+
+        // sorteio dos quarterbacks
+        Quarterback qb1 = gameService.sortearQuarterback();
+        assertNotNull(qb1, "O primeiro quarterback sorteado não pode ser nulo.");
+        Quarterback qb2 = gameService.sortearQuarterback();
+        assertNotNull(qb2, "O segundo quarterback sorteado não pode ser nulo.");
+
+        assertNotEquals(qb1.getId(), qb2.getId(), "Os qbs não devem ser iguais.");
+    }
+
+    /**
+     * Teste de progressão da rodada com sucesso
+     */
+    @Test
+    void deveTerminarARodada() throws Exception {
+        gameService.iniciarJogo(2000, "Touchdowns totais", "Normal");
+        List<Multiplicador> multiplicadores = new ArrayList<>(gameService.getMultiplicadoresDisponiveis());
+
+        for (Multiplicador m : multiplicadores) {
+            Quarterback qb = gameService.sortearQuarterback();
+            gameService.aplicarMultiplicador(qb, m);
+        }
+
+        assertTrue(gameService.jogoAcabou(), "O jogo deveria ter terminado após usar todos os multiplicadores.");
+    }
+
+    /**
+     * Teste para simular uma rodada de vitoria ou derrota
+     */
+    @Test
+    void testaPossivelVitoriaOuDerrota() throws Exception {
+        gameService.iniciarJogo(5000, "Touchdowns passados", "Desafio");
+        List<Multiplicador> multiplicadores = new ArrayList<>(gameService.getMultiplicadoresDisponiveis());
+
+        // sorteio dos quarterbacks e aplicação dos multiplicadores
+        for (Multiplicador m : multiplicadores) {
+            Quarterback qb = gameService.sortearQuarterback();
+            gameService.aplicarMultiplicador(qb, m);
+        }
+
+        if (gameService.jogoAcabou()) {
+            if (gameService.getRodada().getPontosAcumulados() >= gameService.getRodada().getMeta()) {
+                assertTrue(gameService.jogadorVenceu(), "O jogador deveria ter vencido a rodada.");
+                System.out.println(gameService.getMensagemResultado());
+            } else {
+                assertTrue(gameService.jogadorPerdeu(), "O jogador deveria ter perdido a rodada.");
+                System.out.println(gameService.getMensagemResultado());
+            }
+        }
+    }
 }
