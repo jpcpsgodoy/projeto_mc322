@@ -17,14 +17,14 @@ Pré-requisitos:
 ## Estrutura atual do projeto
 
 ```
-FutQuiz/
+TouchQuiz/
 ├── .gitignore
 ├── app/
 │   ├── historico_jogos.csv
 │   └── src/
 │       ├── main/
 │       │   ├── java/
-│       │   │   └── com/futquiz/
+│       │   │   └── com/touchquiz/
 │       │   │       ├── App.java
 │       │   │       ├── auxiliares/
 │       │   │       │   └── GerenciadorArquivos.java
@@ -55,7 +55,7 @@ FutQuiz/
 │       │       └── (Ícones e imagens)
 │       └── test/
 │           └── java/
-│               └── com/futquiz/
+│               └── com/touchquiz/
 │                   └── AppTest.java
 ├── gradle/
 ├── build.gradle
